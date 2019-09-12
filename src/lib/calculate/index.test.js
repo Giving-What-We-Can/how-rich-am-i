@@ -104,6 +104,8 @@ describe('calculate', () => {
       incomeCentile,
       medianMultiple
     } = result
+    // Results are for datasets as of 2019-09-11. If you update the datasets,
+    // hand-calculate these values before running the tests again!!!
     expect(internationalizedIncome).toBe(41230.05)
     expect(equivalizedIncome).toBe(27486.7)
     expect(convertedIncome).toBe(39155.82)
