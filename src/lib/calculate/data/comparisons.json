@@ -1,0 +1,17 @@
+[
+  {
+    "id": "bednets",
+    "cost": 6.3,
+    "description": "%% insecticide-treated bednets"
+  },
+  {
+    "id": "deworming",
+    "cost": 1.23,
+    "description": "%% insecticide-treated bednets"
+  },
+  {
+    "id": "dalys",
+    "cost": 200,
+    "description": "equivalent to saving ≈%% years of healthy life"
+  }
+]
