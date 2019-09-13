@@ -6,7 +6,19 @@ import { IntlProvider } from 'react-intl'
 
 import HowRichAmI from 'components/HowRichAmI'
 
-const theme = createMuiTheme({})
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#6c0000'
+    },
+    secondary: {
+      main: '#edede5'
+    }
+  },
+  typography: {
+    fontFamily: ['Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif']
+  }
+})
 
   const App = () => <ThemeProvider theme={theme}>
     <IntlProvider defaultLocale='en'>

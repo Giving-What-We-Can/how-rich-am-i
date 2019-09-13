@@ -1,5 +1,6 @@
 import React from 'react'
 import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
 import FormControl from '@material-ui/core/FormControl'
 import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
@@ -8,12 +9,13 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
-import DoneIcon from '@material-ui/icons/Done'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import Slider from '@material-ui/core/Slider'
 import COUNTRIES from 'lib/calculate/data/countries.json'
-import { calculate, getCurrencyCode } from 'lib/calculate'
+import { calculate, getCurrencyCode, getDonationComparisonAmount } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
 import BigNumber from 'bignumber.js'
+import { COMPARISONS } from '../../lib/calculate'
 // import { makeStyles } from '@material-ui/core/styles';
 
 // const useStyles = makeStyles(theme => ({
@@ -23,6 +25,7 @@ import BigNumber from 'bignumber.js'
 // }))
 
 const MAX_HOUSEHOLD_NUMBER = 10
+const GRID_SPACING = 4
 
 export const parseNumericInput = input => {
   if (input === '') return ''
@@ -30,7 +33,9 @@ export const parseNumericInput = input => {
   return isNaN(val) ? '' : val
 }
 
+export const validCountry = input => COUNTRIES.some(country => country.code === input)
 export const validInteger = input => typeof input === 'number' && /^\d+$/.test(input.toString())
+export const greaterThanZero = input => typeof input === 'number' && input > 0
 
 const Controls = ({ income, countryCode, household, onChange, onCalculate }) => {
   // change handlers
@@ -47,8 +52,14 @@ const Controls = ({ income, countryCode, household, onChange, onCalculate }) => 
     onChange({ household: { ...household, ...{ [key]: val } } })
   }
 
+  const isValid = [
+    validCountry(countryCode),
+    validInteger(income) && greaterThanZero(income),
+    validInteger(household.adults) && greaterThanZero(household.adults),
+    validInteger(household.children)
+  ].every(a => a)
   return <form>
-    <Grid container spacing={4}>
+    <Grid container spacing={GRID_SPACING}>
 
       <Grid item sm={6} md={3}>
         <FormControl fullWidth>
@@ -98,9 +109,9 @@ const Controls = ({ income, countryCode, household, onChange, onCalculate }) => 
 
     </Grid>
 
-    <Grid container justify='center' spacing={4}>
+    <Grid container justify='center' spacing={GRID_SPACING}>
       <Grid item xs={12} sm={8} md={6}>
-        <Button fullWidth color='primary' variant='contained' onClick={onCalculate}>Calculate <DoneIcon /></Button>
+        <Button fullWidth color='primary' variant='contained' disabled={!isValid} onClick={onCalculate}>Calculate <CheckCircleIcon /></Button>
       </Grid>
     </Grid>
   </form>
@@ -110,26 +121,31 @@ const Calculation = ({ income, countryCode, household }) => {
   const { incomeCentile, medianMultiple } = calculate({ income, countryCode, household })
   return <Grid container spacing={4} justify='center'>
     <Grid item xs={12}>
-      If you have a household income of{' '}
-      <FormattedNumber value={income} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />
+      <Typography>
+          If you have a household income of{' '}
+        <FormattedNumber value={income} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />
+      </Typography>
     </Grid>
-    <Grid item sm={6}>You are in the richest {incomeCentile}% of the global population.</Grid>
-    <Grid item sm={6}>Your income is more than {medianMultiple} times the global median.</Grid>
+    <Grid item sm={6}><Typography>You are in the richest {incomeCentile}% of the global population.</Typography></Grid>
+    <Grid item sm={6}><Typography>Your income is more than {medianMultiple} times the global median.</Typography></Grid>
   </Grid>
 }
 
 
 const formatPercentage = val => `${val}%`
 
-const DONATION_SLIDER_MARKS = [...Array(50).keys()]
+const MAX_DONATION_SLIDER_VALUE = 50
+const DONATION_SLIDER_MARKS = [...Array(MAX_DONATION_SLIDER_VALUE).keys()]
   .filter(v => v % 5 === 0)
   .map(v => ({ value: v, label: formatPercentage(v) }))
 
+
 const DonationCalculation = ({ income, countryCode, household, donationPercentage, onDonationPercentageChange }) => {
   const donationIncome = BigNumber(income * (100 - donationPercentage) / 100).dp(2).toNumber()
-  const { incomeCentile, medianMultiple } = calculate({ income: donationIncome, countryCode, household })
-  return <Grid container spacing={4} justify='center'>
-    <Grid item xs={12}>If you were to donate {donationPercentage}% of your income</Grid>
+  const donationValue = BigNumber(income).minus(donationIncome).dp(2).toNumber()
+  const { incomeCentile, medianMultiple, convertedIncome } = calculate({ income: donationIncome, countryCode, household })
+  return <Grid container spacing={GRID_SPACING} justify='center'>
+    <Grid item xs={12}><Typography>If you were to donate {donationPercentage}% of your income</Typography></Grid>
     <Grid item xs={12}>
       <Slider
         value={donationPercentage}
@@ -137,19 +153,55 @@ const DonationCalculation = ({ income, countryCode, household, donationPercentag
         aria-labelledby="discrete-slider-always"
         step={1}
         min={1}
-        max={50}
+        max={MAX_DONATION_SLIDER_VALUE}
         marks={DONATION_SLIDER_MARKS}
         onChange={onDonationPercentageChange}
       />
     </Grid>
     <Grid item sm={12}>
-      You would have a household income of{' '}
-      <FormattedNumber value={donationIncome} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />
+      <Typography>
+        You would have a household income of{' '}
+        <FormattedNumber value={donationIncome} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />,{' '}
+        making{' '}
+        <FormattedNumber value={donationValue} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />{' '}
+        in donations.
+      </Typography>
     </Grid>
-    <Grid item sm={6}>You would still be in the richest {incomeCentile}% of the global population.</Grid>
-    <Grid item sm={6}>Your income would still be more than {medianMultiple} times the global median.</Grid>
+    <Grid item sm={6}>
+      <Typography>
+      You would still be in the richest {incomeCentile}% of the global population.
+      </Typography>
+    </Grid>
+    <Grid item sm={6}>
+      <Typography>
+      Your income would still be more than {medianMultiple} times the global median.
+      </Typography>
+    </Grid>
+    <Grid item sm={12}>
+      <DonationComparisons value={convertedIncome} />
+    </Grid>
   </Grid>
 }
+
+const DONATION_COMPARISON_PLACEHOLDER = '%%'
+const DonationComparison = ({ value, comparison }) => {
+  const parts = comparison.description.split(DONATION_COMPARISON_PLACEHOLDER)
+  const elements = [
+    parts[0],
+    <FormattedNumber value={getDonationComparisonAmount(value, comparison)} />,
+    parts[1]
+  ].map((el, i) => <span key={i}>{el}</span>)
+  return <div>
+    <Typography>{elements}</Typography>
+  </div>
+}
+
+const DonationComparisons = ({ value }) => <Grid container spacing={GRID_SPACING}>
+  <Grid item xs={12}><Typography>And each year your donations could fund</Typography></Grid>
+  {COMPARISONS.map(Comparison => <Grid item xs={4} key={Comparison.id}>
+    <DonationComparison value={value} comparison={Comparison} />
+  </Grid>)}
+</Grid>
 
 class HowRichAmI extends React.PureComponent {
   constructor (props) {
