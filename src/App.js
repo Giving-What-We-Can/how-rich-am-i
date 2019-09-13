@@ -3,6 +3,7 @@ import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import { IntlProvider } from 'react-intl'
+import CssBaseline from '@material-ui/core/CssBaseline'
 
 import HowRichAmI from 'components/HowRichAmI'
 
@@ -22,6 +23,7 @@ const theme = createMuiTheme({
 
   const App = () => <ThemeProvider theme={theme}>
     <IntlProvider defaultLocale='en'>
+      <CssBaseline />
       <Router>
         <Route path='/' exact component={HowRichAmI} />
       </Router>

@@ -1,7 +1,7 @@
 /* eslint-env jest */
 // import React from 'react'
 // import ReactDOM from 'react-dom'
-import { parseNumericInput, validInteger } from './'
+import { parseNumericInput, validInteger, getCountryName } from './'
 
 describe('parseNumericInput', () => {
   test('handle regular numbers', () => {
@@ -24,4 +24,8 @@ describe('validation', () => {
     expect(validInteger(1234.3)).toBe(false)
     expect(validInteger("1234")).toBe(false)
   })
+})
+
+test('getCountryName', () => {
+  expect(getCountryName('XKX')).toBe('Kosovo')
 })

@@ -15,17 +15,18 @@ import COUNTRIES from 'lib/calculate/data/countries.json'
 import { calculate, getCurrencyCode, getDonationComparisonAmount } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { COMPARISONS } from '../../lib/calculate'
-// import { makeStyles } from '@material-ui/core/styles';
-
-// const useStyles = makeStyles(theme => ({
-//   root: {
-//     flexGrow: 1
-//   }
-// }))
+import { COMPARISONS, getMedianMultiple } from '../../lib/calculate'
+import ChartistGraph from 'react-chartist'
+import Legend from "chartist-plugin-legend"
+import { withStyles } from '@material-ui/core/styles'
 
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
+
+export const getCountryName = countryCode => {
+  const country = COUNTRIES.filter(c => c.code === countryCode)[0]
+  return country ? country.name : null
+}
 
 export const parseNumericInput = input => {
   if (input === '') return ''
@@ -117,21 +118,6 @@ const Controls = ({ income, countryCode, household, onChange, onCalculate }) => 
   </form>
 }
 
-const Calculation = ({ income, countryCode, household }) => {
-  const { incomeCentile, medianMultiple } = calculate({ income, countryCode, household })
-  return <Grid container spacing={4} justify='center'>
-    <Grid item xs={12}>
-      <Typography>
-          If you have a household income of{' '}
-        <FormattedNumber value={income} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />
-      </Typography>
-    </Grid>
-    <Grid item sm={6}><Typography>You are in the richest {incomeCentile}% of the global population.</Typography></Grid>
-    <Grid item sm={6}><Typography>Your income is more than {medianMultiple} times the global median.</Typography></Grid>
-  </Grid>
-}
-
-
 const formatPercentage = val => `${val}%`
 
 const MAX_DONATION_SLIDER_VALUE = 50
@@ -139,48 +125,120 @@ const DONATION_SLIDER_MARKS = [...Array(MAX_DONATION_SLIDER_VALUE).keys()]
   .filter(v => v % 5 === 0)
   .map(v => ({ value: v, label: formatPercentage(v) }))
 
+const pieChartOptions = {
+  donut: true,
+  labelDirection: 'explode',
+}
+const PieChart = ({ data }) => {
+  return <ChartistGraph className='ct-minor-seventh' type='Pie' data={data} options={pieChartOptions} />
+}
+
+const getIncomeCentileData = ({ incomeCentile }) => ({
+  series: [
+    100 - incomeCentile,
+    incomeCentile
+  ],
+  labels: [
+    'People richer than you',
+    "People you're richer than"
+  ]
+})
+
+const getMedianMultipleData = ({ medianMultiple }) => ({
+  labels: ["Median person's income", 'Your income'],
+  series: [
+    [1, medianMultiple]
+  ]
+})
+
+const barChartOptions = {}
+const BarChart = ({ data }) => {
+  return <ChartistGraph className='ct-minor-seventh' type='Bar' data={data} options={barChartOptions} />
+}
+
+const Calculation = ({ income, countryCode, household }) => {
+  try {
+    const { incomeCentile, medianMultiple } = calculate({ income, countryCode, household })
+    if (incomeCentile <= 50) {
+      return <Grid item xs={12}><Typography>
+        Your income is below the global median.
+      </Typography></Grid>
+    }
+    const incomeCentileData = getIncomeCentileData({ incomeCentile })
+
+    return <Grid container spacing={4} justify='center'>
+      <Grid item xs={12}>
+        <Typography>
+          If you have a household income of{' '}
+          <FormattedNumber value={income} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />
+        </Typography>
+      </Grid>
+      <Grid item sm={6}>
+        <PieChart data={incomeCentileData} />
+        <Typography>You are in the richest {incomeCentile}% of the global population.</Typography>
+      </Grid>
+      <Grid item sm={6}>
+        <BarChart data={getMedianMultipleData({ medianMultiple })} />
+        <Typography>Your income is more than {medianMultiple} times the global median.</Typography>
+      </Grid>
+    </Grid>
+  } catch (err) {
+    console.warn(err)
+    return <Grid item xs={12}><Typography>
+      Sorry, we don't have data for {getCountryName(countryCode)}
+    </Typography></Grid>
+  }
+}
 
 const DonationCalculation = ({ income, countryCode, household, donationPercentage, onDonationPercentageChange }) => {
-  const donationIncome = BigNumber(income * (100 - donationPercentage) / 100).dp(2).toNumber()
-  const donationValue = BigNumber(income).minus(donationIncome).dp(2).toNumber()
-  const { incomeCentile, medianMultiple, convertedIncome } = calculate({ income: donationIncome, countryCode, household })
-  return <Grid container spacing={GRID_SPACING} justify='center'>
-    <Grid item xs={12}><Typography>If you were to donate {donationPercentage}% of your income</Typography></Grid>
-    <Grid item xs={12}>
-      <Slider
-        value={donationPercentage}
-        getAriaValueText={formatPercentage}
-        aria-labelledby="discrete-slider-always"
-        step={1}
-        min={1}
-        max={MAX_DONATION_SLIDER_VALUE}
-        marks={DONATION_SLIDER_MARKS}
-        onChange={onDonationPercentageChange}
-      />
+  try {
+    const donationIncome = BigNumber(income * (100 - donationPercentage) / 100).dp(2).toNumber()
+    const donationValue = BigNumber(income).minus(donationIncome).dp(2).toNumber()
+    const { incomeCentile, medianMultiple, convertedIncome } = calculate({ income, countryCode, household })
+    if (incomeCentile <= 50) return null
+    return <Grid container spacing={GRID_SPACING} justify='center'>
+      <Grid item xs={12}><Typography>If you were to donate {donationPercentage}% of your income</Typography></Grid>
+      <Grid item xs={12}>
+        <Slider
+          value={donationPercentage}
+          getAriaValueText={formatPercentage}
+          aria-labelledby="discrete-slider-always"
+          step={1}
+          min={1}
+          max={MAX_DONATION_SLIDER_VALUE}
+          marks={DONATION_SLIDER_MARKS}
+          onChange={onDonationPercentageChange}
+        />
+      </Grid>
+      <Grid item sm={12}>
+        <Typography>
+          You would have a household income of{' '}
+          <FormattedNumber value={donationIncome} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />,{' '}
+          making{' '}
+          <FormattedNumber value={donationValue} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />{' '}
+          in donations.
+        </Typography>
+      </Grid>
+      <Grid item sm={6}>
+        <PieChart data={getIncomeCentileData({ incomeCentile })} />
+        <Typography>
+        You would still be in the richest {incomeCentile}% of the global population.
+        </Typography>
+      </Grid>
+      <Grid item sm={6}>
+        <BarChart data={getMedianMultipleData({ medianMultiple })} />
+        <Typography>
+        Your income would still be more than {medianMultiple} times the global median.
+        </Typography>
+      </Grid>
+      <Grid item sm={12}>
+        <DonationComparisons value={convertedIncome} />
+      </Grid>
     </Grid>
-    <Grid item sm={12}>
-      <Typography>
-        You would have a household income of{' '}
-        <FormattedNumber value={donationIncome} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />,{' '}
-        making{' '}
-        <FormattedNumber value={donationValue} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} />{' '}
-        in donations.
-      </Typography>
-    </Grid>
-    <Grid item sm={6}>
-      <Typography>
-      You would still be in the richest {incomeCentile}% of the global population.
-      </Typography>
-    </Grid>
-    <Grid item sm={6}>
-      <Typography>
-      Your income would still be more than {medianMultiple} times the global median.
-      </Typography>
-    </Grid>
-    <Grid item sm={12}>
-      <DonationComparisons value={convertedIncome} />
-    </Grid>
-  </Grid>
+  } catch (err) {
+    console.warn(err)
+    return null
+  }
 }
 
 const DONATION_COMPARISON_PLACEHOLDER = '%%'
@@ -202,6 +260,68 @@ const DonationComparisons = ({ value }) => <Grid container spacing={GRID_SPACING
     <DonationComparison value={value} comparison={Comparison} />
   </Grid>)}
 </Grid>
+
+const Heading = props => <header>
+  <Typography variant='h2'>How Rich Am I?</Typography>
+  <Typography variant='subtitle1'>Find out how rich you are compared to the rest of the world</Typography>
+</header>
+
+const styles = theme => ({
+  container: {
+    textAlign: 'center',
+    '& .ct-chart-donut': {
+      '& .ct-label': {
+        fontSize: '1rem'
+      }
+    },
+    '& .ct-series-a': {
+      '& .ct-slice-donut, .ct-slice-bar': {
+        stroke: theme.palette.secondary.dark
+      },
+      '& .ct-bar': {
+        stroke: theme.palette.primary.main
+      }
+    },
+    '& .ct-series-b': {
+      '& .ct-slice-donut, .ct-slice-bar': {
+        stroke: theme.palette.secondary.main
+      },
+      '& .ct-bar': {
+        stroke: theme.palette.primary.main
+      }
+    },
+    // '& .ct-legend': {
+    //   position: 'relative',
+    //   zIndex: 10,
+    //   '& li': {
+    //     position: 'relative',
+    //     paddingLeft: 23,
+    //     marginBottom: 3
+    //   },
+    //   '& li: before': {
+    //     width: 12,
+    //     height: 12,
+    //     position: 'absolute',
+    //     left: 0,
+    //     content: '',
+    //     border: '3px solid transparent',
+    //     borderRadius: 2
+    //   },
+    //   '& li.inactive:before': {
+    //     background: 'transparent'
+    //   },
+    //   '&.ct-legend-inside': {
+    //     position: 'absolute',
+    //     top: 0,
+    //     right: 0
+    //   },
+    //   '.ct-series-a:before': {
+    //     backgroundColor: theme.palette.primary.main,
+    //     borderColor: theme.palette.primary.main
+    //   }
+    // }
+  }
+})
 
 class HowRichAmI extends React.PureComponent {
   constructor (props) {
@@ -238,8 +358,10 @@ class HowRichAmI extends React.PureComponent {
 
   render = () => {
     const { showCalculations } = this.state
-
-    return <div>
+    const { classes } = this.props
+    // const classes = useStyles()
+    return <div className={classes.container}>
+      <Heading />
       <Controls {...this.state} onChange={this.handleControlsChange} onCalculate={this.handleCalculate}/>
       {showCalculations && <React.Fragment>
         <Calculation {...this.state} />
@@ -249,4 +371,4 @@ class HowRichAmI extends React.PureComponent {
   }
 }
 
-export default HowRichAmI
+export default withStyles(styles)(HowRichAmI)
