@@ -107,6 +107,7 @@ describe('calculate', () => {
       equivalizedIncome,
       convertedIncome,
       incomeCentile,
+      incomeTopPercentile,
       medianMultiple
     } = result
     // Results are for datasets as of 2019-09-11. If you update the datasets,
@@ -114,9 +115,22 @@ describe('calculate', () => {
     expect(internationalizedIncome).toBe(41230.05)
     expect(equivalizedIncome).toBe(27486.7)
     expect(convertedIncome).toBe(39155.82)
-    expect(incomeCentile).toBe(94)
-    expect(medianMultiple).toBe(9)
+    expect(incomeCentile).toBe(94.4)
+    expect(incomeTopPercentile).toBe(5.6)
+    expect(medianMultiple).toBe(9.7)
   })
+
+  test('median tops out at 99th percential', () => {
+    const income = 284000000
+    const countryCode = 'GBR'
+    const household = { adults: 1, children: 1 }
+    const result = calculate({ income, countryCode, household })
+    const {
+      incomeCentile
+    } = result
+    expect(incomeCentile).toBe(99)
+  })
+
 })
 
 test('getDonationComparisonAmount', () => {

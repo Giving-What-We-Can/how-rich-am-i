@@ -5,7 +5,7 @@ import PPP_CONVERSION from './data/ppp_conversion.json'
 import EXCHANGE_RATES from './data/exchange_rates.json'
 import COMPARISONS from './data/comparisons.json'
 import BigNumber from 'bignumber.js'
-export {COMPARISONS}
+export { COMPARISONS }
 
 // data interpolation
 const interpolateIncomeCentile = interpolate(
@@ -13,7 +13,7 @@ const interpolateIncomeCentile = interpolate(
 )
 
 export const interpolateIncomeCentileByAmount = amount => BigNumber(interpolateIncomeCentile({ y: amount }))
-    .decimalPlaces(0)
+    .decimalPlaces(1)
     .toNumber()
 
 export const interpolateIncomeAmountByCentile = centile => BigNumber(interpolateIncomeCentile({ x: centile }))
@@ -27,8 +27,9 @@ export const getCurrency = countryCode => {
   try {
     return currencies(countryCode)[0]
   } catch (err) {
-    console.warn(err)
-    return {}
+    // don't choke on invalid code errors, just return a blank object
+    if (/INVALIDCODE/.test(err)) return {}
+    else console.warn(err)
   }
 }
 export const getCurrencyCode = countryCode => getCurrency(countryCode).alphaCode
@@ -66,7 +67,7 @@ export const equivalizeIncome = (income, household) => BigNumber(income)
 // calculate how many times the median income a person's income is
 export const getMedianMultiple = income => BigNumber(income)
   .dividedBy(MEDIAN_INCOME)
-  .decimalPlaces(0)
+  .decimalPlaces(1)
   .toNumber()
 
 // gold-plated way of multiplying by a decimal
@@ -83,7 +84,8 @@ export const calculate = ({ income, countryCode, household }) => {
   const internationalizedIncome = internationalizeIncome(income, countryCode)
   const equivalizedIncome = equivalizeIncome(internationalizedIncome, household)
   const convertedIncome = convertIncome(income, countryCode)
-  const incomeCentile = interpolateIncomeCentileByAmount(equivalizedIncome)
+  const incomeCentile = Math.min(99, interpolateIncomeCentileByAmount(equivalizedIncome))
+  const incomeTopPercentile = BigNumber(100).minus(incomeCentile).decimalPlaces(1).toNumber()
   const medianMultiple = getMedianMultiple(equivalizedIncome)
 
   return {
@@ -91,6 +93,7 @@ export const calculate = ({ income, countryCode, household }) => {
     equivalizedIncome,
     convertedIncome,
     incomeCentile,
+    incomeTopPercentile,
     medianMultiple
   }
 }

@@ -6,8 +6,6 @@ _This project was bootstrapped with [Create React App](https://github.com/facebo
 
 ## Methodology
 
-
-
 The estimated income percentiles used in this calculator can be [found here](https://docs.google.com/spreadsheets/d/1OSiA2dnbvZ5pUti2DO_HJU8phyfCDC-hNz5McTVcEnM/edit#gid=2139097862).
 
 The calculator was last updated in mid-2019. It is currently based on data from the 2015 working paper [The Future of Worldwide Income Distribution](https://web.archive.org/web/20160518000924/https:/www.piie.com/sites/default/files/publications/wp/wp15-7.pdf) by Tomáš Hellebrandt and Paolo Mauro of the Peterson Institute for International Economics. Raw data from the paper is [available here](https://web.archive.org/web/20160518000857/https:/www.piie.com/sites/default/files/publications/wp/data/wp15-7.xlsx). We use an adjusted version of the data presented in Figure 5 of the paper. Our adjustment calculations can be [found here](https://drive.google.com/open?id=17_XiLHc6g8FRPa5ukiU-YjGByHbCV_Jr).
