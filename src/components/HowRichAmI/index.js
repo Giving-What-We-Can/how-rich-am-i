@@ -340,7 +340,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
         </Typography>
       </Grid>
       <Grid item sm={12}>
-        <DonationComparisons value={convertedIncome} />
+        <DonationComparisons value={donationValue} />
       </Grid>
     </Grid>
   } catch (err) {
@@ -587,7 +587,7 @@ class _HowRichAmI extends React.PureComponent {
     }
 
     // ensure that query string is accurate (e.g. if using legacy query vars)
-    this.updateQueryString('replace')
+    if (validateSettings(settings)) this.updateQueryString('replace')
   }
 
   getSettingsFromQueryString = props => {
