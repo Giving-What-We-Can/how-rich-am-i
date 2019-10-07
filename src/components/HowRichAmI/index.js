@@ -61,7 +61,7 @@ export const getCountryName = countryCode => {
 
 export const parseNumericInput = input => {
   if (input === '') return ''
-  const val = BigNumber(input.replace(/^(\d+).*/g, '$1')).toNumber()
+  const val = BigNumber(input.replace(',', '').replace(/^(\d+).*/g, '$1')).toNumber()
   return isNaN(val) ? '' : val
 }
 
@@ -159,7 +159,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
 })
 
 Controls.propTypes = {
-  income: PropTypes.number.isRequired,
+  income: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   countryCode: PropTypes.string.isRequired,
   household: PropTypes.shape({
     adults: PropTypes.number.isRequired,

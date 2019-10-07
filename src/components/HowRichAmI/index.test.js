@@ -19,6 +19,15 @@ describe('parseNumericInput', () => {
   test('handle pasted number with decimals', () => {
     expect(parseNumericInput('1234.56')).toBe(1234)
   })
+
+  test('handle pasted number with commas', () => {
+    expect(parseNumericInput('123,456')).toBe(123456)
+  })
+
+  test('handle pasted number with commas and decimals', () => {
+    expect(parseNumericInput('123,456.78')).toBe(123456)
+  })
+
 })
 
 describe('validation', () => {
