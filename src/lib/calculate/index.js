@@ -59,9 +59,10 @@ export const convertIncome = (income, countryCode) => BigNumber(income)
   .decimalPlaces(2)
   .toNumber()
 
-// equivalises an income to a particular household composition
-export const equivalizeIncome = (income, household) => BigNumber(income)
+  // equivalises an income to a particular household composition
+  export const equivalizeIncome = (income, household) => BigNumber(income)
   .dividedBy(householdEquivalizationFactor(household))
+  .decimalPlaces(2)
   .toNumber()
 
 // calculate how many times the median income a person's income is

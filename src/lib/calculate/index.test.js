@@ -120,6 +120,29 @@ describe('calculate', () => {
     expect(medianMultiple).toBe(9.7)
   })
 
+  test('median household in Singapore', () => {
+    const income = 53000
+    const countryCode = 'SGP'
+    const household = { adults: 1, children: 1 }
+    const result = calculate({ income, countryCode, household })
+    const {
+      internationalizedIncome,
+      equivalizedIncome,
+      convertedIncome,
+      incomeCentile,
+      incomeTopPercentile,
+      medianMultiple
+    } = result
+    // Results are for datasets as of 2019-09-11. If you update the datasets,
+    // hand-calculate these values before running the tests again!!!
+    expect(internationalizedIncome).toBe(61666.88) // income / 0.859456454258084
+    expect(equivalizedIncome).toBe(41111.25) // internationalizedIncome / 1.5
+    expect(convertedIncome).toBe(39992.58) // income / 1.325245889
+    expect(incomeCentile).toBe(97.6)
+    expect(incomeTopPercentile).toBe(2.4)
+    expect(medianMultiple).toBe(14.6)
+  })
+
   test('median tops out at 99th percential', () => {
     const income = 284000000
     const countryCode = 'GBR'
