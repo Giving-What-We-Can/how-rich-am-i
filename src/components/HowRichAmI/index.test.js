@@ -1,7 +1,13 @@
 /* eslint-env jest */
 // import React from 'react'
 // import ReactDOM from 'react-dom'
-import { parseNumericInput, validInteger, getCountryName } from './'
+import {
+  parseNumericInput,
+  validInteger,
+  getCountryName,
+  getDonationIncome,
+  getDonationValue
+} from './'
 
 describe('parseNumericInput', () => {
   test('handle regular numbers', () => {
@@ -41,4 +47,13 @@ describe('validation', () => {
 
 test('getCountryName', () => {
   expect(getCountryName('XKX')).toBe('Kosovo')
+})
+
+describe('donation value', () => {
+  test('getDonationIncome', () => {
+    expect(getDonationIncome(20000, 10)).toBe(18000)
+  })
+  test('getDonationValue', () => {
+    expect(getDonationValue(20000, 10)).toBe(2000)
+  })
 })

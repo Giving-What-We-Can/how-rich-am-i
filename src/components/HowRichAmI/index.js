@@ -295,11 +295,14 @@ const DONATION_SLIDER_MARKS = [...Array(MAX_DONATION_SLIDER_VALUE).keys()]
   .filter(v => v % 5 === 0)
   .map(v => ({ value: v, label: formatPercentage(v) }))
 
+export const getDonationIncome = (income, donationPercentage) => BigNumber(income * (100 - donationPercentage) / 100).dp(2).toNumber()
+export const getDonationValue = (income, donationPercentage) => BigNumber(income).minus(getDonationIncome(income, donationPercentage)).dp(2).toNumber()
+
 const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode, household, donationPercentage, onDonationPercentageChange, classes }) => {
   try {
-    const donationIncome = BigNumber(income * (100 - donationPercentage) / 100).dp(2).toNumber()
-    const donationValue = BigNumber(income).minus(donationIncome).dp(2).toNumber()
+    const donationIncome = getDonationIncome(income, donationPercentage)
     const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome, convertedIncome } = calculate({ income: donationIncome, countryCode, household })
+    const donationValue = getDonationValue(convertedIncome, donationPercentage)
     if (incomeCentile <= 50) return null
     return <Grid container spacing={GRID_SPACING} justify='center' className={classes.root}>
       <Grid item xs={12}>
@@ -616,7 +619,6 @@ class _HowRichAmI extends React.PureComponent {
   updateQueryString = (method = 'push') => {
     const { history, location } = this.props
     const { income, countryCode, household } = this.state
-    console.log('updating query string', method)
     history[method]({
       pathname: location.pathname,
       search: `?${qs.stringify({ income, countryCode, household })}`
@@ -624,7 +626,6 @@ class _HowRichAmI extends React.PureComponent {
   }
 
   handleCalculate = () => {
-    console.log(this.state)
     if (!validateSettings({ ...this.state })) return
     this.updateQueryString()
     this.setShowCalculations(true)

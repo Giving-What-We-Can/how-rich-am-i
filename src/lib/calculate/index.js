@@ -1,5 +1,5 @@
 import { currencies } from 'countryinfo'
-import { single as interpolate } from 'simple-interpolation';
+import { single as interpolate } from 'simple-interpolation'
 import INCOME_CENTILES from './data/income_centiles.json'
 import PPP_CONVERSION from './data/ppp_conversion.json'
 import EXCHANGE_RATES from './data/exchange_rates.json'
@@ -13,12 +13,12 @@ const interpolateIncomeCentile = interpolate(
 )
 
 export const interpolateIncomeCentileByAmount = amount => BigNumber(interpolateIncomeCentile({ y: amount }))
-    .decimalPlaces(1)
-    .toNumber()
+  .decimalPlaces(1)
+  .toNumber()
 
 export const interpolateIncomeAmountByCentile = centile => BigNumber(interpolateIncomeCentile({ x: centile }))
-    .decimalPlaces(2)
-    .toNumber()
+  .decimalPlaces(2)
+  .toNumber()
 
 export const MEDIAN_INCOME = interpolateIncomeAmountByCentile(50)
 
@@ -37,7 +37,7 @@ export const getCurrencyCode = countryCode => getCurrency(countryCode).alphaCode
 // calculate how to adjust for household size using OECD equivalised income
 // the weightings are for first adult, subsequent adults and children respectively:
 //   1, 0.7, 0.5
-export const householdEquivalizationFactor = ({adults = 0, children = 0}) =>
+export const householdEquivalizationFactor = ({ adults = 0, children = 0 }) =>
   (
     (adults === 1
       ? BigNumber(1)
@@ -59,8 +59,8 @@ export const convertIncome = (income, countryCode) => BigNumber(income)
   .decimalPlaces(2)
   .toNumber()
 
-  // equivalises an income to a particular household composition
-  export const equivalizeIncome = (income, household) => BigNumber(income)
+// equivalises an income to a particular household composition
+export const equivalizeIncome = (income, household) => BigNumber(income)
   .dividedBy(householdEquivalizationFactor(household))
   .decimalPlaces(2)
   .toNumber()

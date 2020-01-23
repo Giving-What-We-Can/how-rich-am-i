@@ -31,7 +31,6 @@ describe('income centile interpolation', () => {
     expect(MEDIAN_INCOME).toBeGreaterThan(2800)
     expect(MEDIAN_INCOME).toBeLessThan(2900)
   })
-
 })
 
 describe('currencies', () => {
@@ -143,6 +142,29 @@ describe('calculate', () => {
     expect(medianMultiple).toBe(14.6)
   })
 
+  test('median household in Russia', () => {
+    const income = 528000
+    const countryCode = 'RUS'
+    const household = { adults: 1, children: 1 }
+    const result = calculate({ income, countryCode, household })
+    const {
+      internationalizedIncome,
+      equivalizedIncome,
+      convertedIncome,
+      incomeCentile,
+      incomeTopPercentile,
+      medianMultiple
+    } = result
+    // Results are for datasets as of 2019-09-11. If you update the datasets,
+    // hand-calculate these values before running the tests again!!!
+    expect(internationalizedIncome).toBe(20261.14) // income / 26.059744
+    expect(equivalizedIncome).toBe(13507.43) // internationalizedIncome / 1.5
+    expect(convertedIncome).toBe(8876.08) // income / 59.48571323299
+    expect(incomeCentile).toBe(84.5)
+    expect(incomeTopPercentile).toBe(15.5)
+    expect(medianMultiple).toBe(4.8)
+  })
+
   test('median tops out at 99th percential', () => {
     const income = 284000000
     const countryCode = 'GBR'
@@ -153,7 +175,6 @@ describe('calculate', () => {
     } = result
     expect(incomeCentile).toBe(99)
   })
-
 })
 
 test('getDonationComparisonAmount', () => {
