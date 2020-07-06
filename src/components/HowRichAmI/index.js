@@ -126,7 +126,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
             endAdornment={<InputAdornment position='end'>{getCurrencyCode(countryCode)}</InputAdornment>}
           />
           <FormHelperText>
-            Enter your <strong>post-tax</strong> household income in{' '}
+            Enter your annual <strong>post-tax</strong> household income in{' '}
             {getCurrencyCode(countryCode)}
           </FormHelperText>
         </FormControl>
