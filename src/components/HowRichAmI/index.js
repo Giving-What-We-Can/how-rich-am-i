@@ -301,6 +301,7 @@ export const getDonationValue = (income, donationPercentage) => BigNumber(income
 const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode, household, donationPercentage, onDonationPercentageChange, classes }) => {
   try {
     const donationIncome = getDonationIncome(income, donationPercentage)
+    const donationAmount = income - donationIncome
     const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome, convertedIncome } = calculate({ income: donationIncome, countryCode, household })
     const donationValue = getDonationValue(convertedIncome, donationPercentage)
     if (incomeCentile <= 50) return null
@@ -326,7 +327,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
           … you would have a household income of{' '}
           <FormattedNumber value={donationIncome} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} maximumFractionDigits={0} />,{' '}
           and would make{' '}
-          <FormattedNumber value={donationValue} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} maximumFractionDigits={0} />{' '}
+          <FormattedNumber value={donationAmount} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} maximumFractionDigits={0} />{' '}
           in donations …
         </Typography>
       </Grid>

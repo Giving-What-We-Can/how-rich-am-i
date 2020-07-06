@@ -34,7 +34,6 @@ describe('parseNumericInput', () => {
   test('handle pasted number with commas and decimals', () => {
     expect(parseNumericInput('123,456.78')).toBe(123456)
   })
-
 })
 
 describe('validation', () => {
