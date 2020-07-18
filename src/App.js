@@ -7,6 +7,7 @@ import { IntlProvider } from 'react-intl'
 import { ContentfulClient, ContentfulProvider } from 'react-contentful'
 
 import HowRichAmI, { HowRichAmIStandalone } from 'components/HowRichAmI'
+import CryptoRichAmI, { CryptoRichAmIStandalone } from 'components/CryptoRichAmI'
 
 const {
   REACT_APP_CONTENTFUL_SPACE,
@@ -70,7 +71,9 @@ const App = () => <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
         <Route path='/' exact component={HowRichAmIStandalone} />
+        <Route path='/crypto' component={CryptoRichAmIStandalone} />
         <Route path='/embed' component={HowRichAmI} />
+        <Route path='/embed-crypto' component={CryptoRichAmI} />
       </Router>
     </IntlProvider>
   </ContentfulProvider>
