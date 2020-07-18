@@ -1,0 +1,14 @@
+[
+    {
+      "code": "BTC",
+      "name": "Bitcoin"
+    },
+    {
+      "code": "ETH",
+      "name": "Ethereum"
+    },
+    {
+      "code": "USDC",
+      "name": "Stable Coin"
+    }
+]
