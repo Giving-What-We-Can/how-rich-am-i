@@ -1,5 +1,5 @@
 import { currencies } from 'countryinfo'
-import { single as interpolate } from 'simple-interpolation'
+import interpolate from 'linear-interpolator'
 import INCOME_CENTILES from './data/income_centiles.json'
 import PPP_CONVERSION from './data/ppp_conversion.json'
 import EXCHANGE_RATES from './data/exchange_rates.json'
@@ -8,15 +8,23 @@ import BigNumber from 'bignumber.js'
 export { COMPARISONS }
 
 // data interpolation
-const interpolateIncomeCentile = interpolate(
-  INCOME_CENTILES.map(centile => ({ x: centile.percentage, y: centile.international_dollars }))
+// const interpolateIncomeCentile = interpolate(
+//   INCOME_CENTILES.map(centile => ({ x: centile.percentage, y: centile.international_dollars }))
+// )
+
+const interpolateIncomeCentileByAmountInterpolator = interpolate(
+  INCOME_CENTILES.map(centile => ([centile.international_dollars, centile.percentage]))
 )
 
-export const interpolateIncomeCentileByAmount = amount => BigNumber(interpolateIncomeCentile({ y: amount }))
+const interpolateIncomeAmountByCentileInterpolator = interpolate(
+  INCOME_CENTILES.map(centile => ([centile.percentage, centile.international_dollars]))
+)
+
+export const interpolateIncomeCentileByAmount = amount => BigNumber(interpolateIncomeCentileByAmountInterpolator(amount))
   .decimalPlaces(1)
   .toNumber()
 
-export const interpolateIncomeAmountByCentile = centile => BigNumber(interpolateIncomeCentile({ x: centile }))
+export const interpolateIncomeAmountByCentile = centile => BigNumber(interpolateIncomeAmountByCentileInterpolator(centile))
   .decimalPlaces(2)
   .toNumber()
 
