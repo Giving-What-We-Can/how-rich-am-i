@@ -73,7 +73,7 @@ const App = () => <>
         <CssBaseline />
         <SegmentProvider writeKey={REACT_APP_SEGMENT_WRITE_KEY}>
           <Router>
-            <Route path='/' exact component={() => <Redirect to='/how-rich-am-i' />} />
+            <Route path='/' exact render={({ location }) => <Redirect to={{ pathname: '/how-rich-am-i', search: location.search }} />} />
             <Route path='/how-rich-am-i' component={HowRichAmIStandalone} />
             <Route path='/embed' component={HowRichAmI} />
           </Router>
