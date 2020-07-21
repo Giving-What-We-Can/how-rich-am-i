@@ -27,6 +27,8 @@ import { COMPARISONS, MEDIAN_INCOME } from '../../lib/calculate'
 import ChartistGraph from 'react-chartist'
 import { withStyles } from '@material-ui/core/styles'
 
+import PageWrapper from 'components/Page'
+
 import { Page } from 'components/Contentful'
 
 import Dialog from '@material-ui/core/Dialog'
@@ -721,18 +723,20 @@ const standaloneStyles = theme => ({
   }
 })
 
-export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <Container className={classes.root}>
-  <AppBar position='fixed'>
-    <Toolbar>
-      <a href='https://givingwhatwecan.org'>
-        <div className={classes.logoBackground}>
-          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
-        </div>
-      </a>
-      <Typography variant='h6'>How Rich Am I?</Typography>
-    </Toolbar>
-  </AppBar>
-  <div className={classes.content}>
-    <HowRichAmI standalone />
-  </div>
-</Container>)
+export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
+  <Container className={classes.root}>
+    <AppBar position='fixed'>
+      <Toolbar>
+        <a href='https://givingwhatwecan.org'>
+          <div className={classes.logoBackground}>
+            <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
+          </div>
+        </a>
+        <Typography variant='h6'>How Rich Am I?</Typography>
+      </Toolbar>
+    </AppBar>
+    <div className={classes.content}>
+      <HowRichAmI standalone />
+    </div>
+  </Container>
+</PageWrapper>)

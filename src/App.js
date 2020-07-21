@@ -2,15 +2,17 @@ import React from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { IntlProvider } from 'react-intl'
 import { ContentfulClient, ContentfulProvider } from 'react-contentful'
 
 import HowRichAmI, { HowRichAmIStandalone } from 'components/HowRichAmI'
+import { SegmentProvider } from 'components/Segment'
 
 const {
   REACT_APP_CONTENTFUL_SPACE,
-  REACT_APP_CONTENTFUL_ACCESS_TOKEN
+  REACT_APP_CONTENTFUL_ACCESS_TOKEN,
+  REACT_APP_SEGMENT_WRITE_KEY
 } = process.env
 
 const primaryColor = '#6c0000'
@@ -64,16 +66,21 @@ const contentfulClient = new ContentfulClient({
   accessToken: REACT_APP_CONTENTFUL_ACCESS_TOKEN
 })
 
-const App = () => <ThemeProvider theme={theme}>
-  <ContentfulProvider client={contentfulClient} locale='en'>
-    <IntlProvider locale='en' defaultLocale='en'>
-      <CssBaseline />
-      <Router>
-        <Route path='/' exact component={HowRichAmIStandalone} />
-        <Route path='/embed' component={HowRichAmI} />
-      </Router>
-    </IntlProvider>
-  </ContentfulProvider>
-</ThemeProvider>
+const App = () => <>
+  <ThemeProvider theme={theme}>
+    <ContentfulProvider client={contentfulClient} locale='en'>
+      <IntlProvider locale='en' defaultLocale='en'>
+        <CssBaseline />
+        <SegmentProvider writeKey={REACT_APP_SEGMENT_WRITE_KEY}>
+          <Router>
+            <Route path='/' exact component={() => <Redirect to='/how-rich-am-i' />} />
+            <Route path='/how-rich-am-i' component={HowRichAmIStandalone} />
+            <Route path='/embed' component={HowRichAmI} />
+          </Router>
+        </SegmentProvider>
+      </IntlProvider>
+    </ContentfulProvider>
+  </ThemeProvider>
+</>
 
 export default App
