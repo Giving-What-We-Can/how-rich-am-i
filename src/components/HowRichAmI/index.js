@@ -236,6 +236,23 @@ const calculationStyles = theme => ({
   }
 })
 
+// <FormattedNumber /> requires a 'style' prop, but linters treat this as a reserved word. This is a workaround
+// see https://github.com/formatjs/formatjs/issues/785#issuecomment-360295980
+const FormattedCurrency = ({ style = 'currency', minimumFractionDigits = 0, maximumFractionDigits = 0, ...props }) => (
+  <FormattedNumber
+    style={style}
+    minimumFractionDigits={minimumFractionDigits}
+    maximumFractionDigits={maximumFractionDigits}
+    {...props}
+  />
+)
+
+FormattedCurrency.propTypes = {
+  style: PropTypes.string,
+  minimumFractionDigits: PropTypes.number,
+  maximumFractionDigits: PropTypes.number
+}
+
 const Calculation = withStyles(calculationStyles)(({ income, countryCode, household, classes }) => {
   try {
     const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome } = calculate({ income, countryCode, household })
@@ -255,7 +272,7 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
       <Grid item xs={12}>
         <Typography className={classes.mainText}>
           If you have a household income of{' '}
-          <FormattedNumber value={income} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} maximumFractionDigits={0} />
+          <FormattedCurrency value={income} currency={getCurrencyCode(countryCode)} />
         </Typography>
         <Typography className={classes.subMainText}>
           (in a household of {household.adults} adult{household.adults > 1 ? 's' : ''}
@@ -325,9 +342,9 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       <Grid item sm={12}>
         <Typography className={classes.mainText}>
           … you would have a household income of{' '}
-          <FormattedNumber value={donationIncome} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} maximumFractionDigits={0} />,{' '}
+          <FormattedCurrency value={donationIncome} currency={getCurrencyCode(countryCode)} />,{' '}
           and would make{' '}
-          <FormattedNumber value={donationAmount} style='currency' currency={getCurrencyCode(countryCode)} minimumFractionDigits={0} maximumFractionDigits={0} />{' '}
+          <FormattedCurrency value={donationAmount} currency={getCurrencyCode(countryCode)} />{' '}
           in donations …
         </Typography>
       </Grid>
@@ -509,7 +526,7 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
     <Grid container spacing={GRID_SPACING}>
       <Grid item xs={12}>
         <div className={classes.logoBackground}>
-          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' />
+          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
         </div>
       </Grid>
       <Grid item xs={12}>
@@ -709,7 +726,7 @@ export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) =
     <Toolbar>
       <a href='https://givingwhatwecan.org'>
         <div className={classes.logoBackground}>
-          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' />
+          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
         </div>
       </a>
       <Typography variant='h6'>How Rich Am I?</Typography>
