@@ -9,7 +9,6 @@ export const SegmentProvider = ({ writeKey, ...props }) => {
   let analytics = null
   if (writeKey && window.analytics) {
     analytics = window.analytics
-    console.info(`Initing Segment with write key ${writeKey}`)
     analytics.load(writeKey)
   }
   return <SegmentContext.Provider value={{ analytics }} {...props} />

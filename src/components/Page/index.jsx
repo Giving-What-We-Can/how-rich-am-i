@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { withSegment } from 'components/Segment'
 
 const Page = ({ analytics, children }) => {
-  console.log('Page loaded')
   analytics.page()
   return <>{children}</>
 }
