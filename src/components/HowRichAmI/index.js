@@ -26,6 +26,7 @@ import BigNumber from 'bignumber.js'
 import { COMPARISONS, MEDIAN_INCOME } from '../../lib/calculate'
 import ChartistGraph from 'react-chartist'
 import { withStyles } from '@material-ui/core/styles'
+
 import PageWrapper from 'components/Page'
 
 import { Page } from 'components/Contentful'
@@ -722,7 +723,7 @@ const standaloneStyles = theme => ({
   }
 })
 
-export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper>
+export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
   <Container className={classes.root}>
     <AppBar position='fixed'>
       <Toolbar>
