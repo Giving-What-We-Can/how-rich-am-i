@@ -18,8 +18,8 @@ import COMPARISONS from './data/comparisons.json'
 
 describe('income centile interpolation', () => {
   test('interpolateIncomeCentileByAmount is sane', () => {
-    const centile = interpolateIncomeCentileByAmount(21000)
-    expect(centile).toBeGreaterThan(90)
+    const centile = interpolateIncomeCentileByAmount(20000)
+    expect(centile).toBe(90.5)
   })
 
   test('interpolateIncomeAmountByCentile is sane', () => {

@@ -12,6 +12,7 @@
     "country-data": "^0.0.31",
     "countryinfo": "^1.0.3",
     "deep-equal": "^1.1.0",
+    "linear-interpolator": "^1.0.2",
     "lodash": "^4.17.15",
     "markdown-to-jsx": "^6.10.3",
     "qs": "^6.8.0",
@@ -21,8 +22,7 @@
     "react-dom": "^16.9.0",
     "react-intl": "^3.2.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1",
-    "simple-interpolation": "^1.0.6"
+    "react-scripts": "3.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

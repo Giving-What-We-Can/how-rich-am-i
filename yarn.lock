@@ -6330,6 +6330,11 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+linear-interpolator@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/linear-interpolator/-/linear-interpolator-1.0.2.tgz#32646681ed406ef237c851b2c5e4b337eb9be5fa"
+  integrity sha1-MmRmge1AbvI3yFGyxeSzN+ub5fo=
+
 load-json-file@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-2.0.0.tgz#7947e42149af80d696cbf797bcaabcfe1fe29ca8"
@@ -9327,11 +9332,6 @@ signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
   integrity sha1-tf3AjxKH6hF4Yo5BXiUTK3NkbG0=
-
-simple-interpolation@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/simple-interpolation/-/simple-interpolation-1.0.6.tgz#f98d85fc5b317c51c3fb6f3a2435fde944379958"
-  integrity sha512-pXfssRDoTtda1Xz+qdrckh348rggIHE1ZpBWKGDaxGWQi2MxocDPbgIXPdV9FmsRs9zoDKZr6njB3OYkhU7llA==
 
 simple-swizzle@^0.2.2:
   version "0.2.2"
