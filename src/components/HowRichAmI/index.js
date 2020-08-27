@@ -733,21 +733,23 @@ const standaloneStyles = theme => ({
 })
 
 export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
-  <Container className={classes.root}>
+  <Container fixed className={classes.root}>
     <AppBar position='fixed'>
-      <Toolbar>
-        <a href='https://givingwhatwecan.org'>
-          <div className={classes.logoBackground}>
-            <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
-          </div>
-        </a>
-        <Typography variant='h6' className={classes.menuTitle}>How Rich Am I?</Typography>
-        <Hidden xsDown>
-          <div className={classes.menuWrapper}>
-            <MainMenu className={classes.menu} />
-          </div>
-        </Hidden>
-      </Toolbar>
+      <Container fixed>
+        <Toolbar disableGutters>
+          <a href='https://givingwhatwecan.org'>
+            <div className={classes.logoBackground}>
+              <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
+            </div>
+          </a>
+          <Typography variant='h6' className={classes.menuTitle}>How Rich Am I?</Typography>
+          <Hidden smDown>
+            <div className={classes.menuWrapper}>
+              <MainMenu className={classes.menu} />
+            </div>
+          </Hidden>
+        </Toolbar>
+      </Container>
     </AppBar>
     <div className={classes.content}>
       <HowRichAmI standalone />

@@ -62,5 +62,4 @@ const getMenus = async () => client.getEntries({
   } catch (err) {
     console.error(err)
   }
-
 })()
