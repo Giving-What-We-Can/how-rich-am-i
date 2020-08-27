@@ -2,7 +2,7 @@ const { SitemapStream, streamToPromise } = require('sitemap')
 const fs = require('mz/fs')
 const path = require('path')
 
-const SITEMAP_FILE = path.join(__dirname, '..', 'public', 'sitemap.xml')
+const SITEMAP_FILE = path.join(__dirname, '..', '..', 'public', 'sitemap.xml')
 // An array with your links
 const links = [{ url: '/how-rich-am-i', changefreq: 'weekly', priority: 0.3 }]
 

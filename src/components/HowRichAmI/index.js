@@ -19,6 +19,8 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import AssessmentIcon from '@material-ui/icons/Assessment'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import Slider from '@material-ui/core/Slider'
+import Hidden from '@material-ui/core/Hidden'
+
 import COUNTRIES from 'lib/calculate/data/countries.json'
 import { calculate, getCurrencyCode, getDonationComparisonAmount } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
@@ -39,6 +41,7 @@ import CloseIcon from '@material-ui/icons/Close'
 // standalone
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
+import MainMenu from 'components/Menus/MainMenu'
 
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
@@ -720,7 +723,13 @@ const standaloneStyles = theme => ({
   },
   logoBackground: {
     marginRight: theme.spacing() * 2
-  }
+  },
+  menuTitle: {
+    flexGrow: 1
+  },
+  menuWrapper: {
+  },
+  menu: {}
 })
 
 export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
@@ -732,7 +741,12 @@ export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) =
             <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
           </div>
         </a>
-        <Typography variant='h6'>How Rich Am I?</Typography>
+        <Typography variant='h6' className={classes.menuTitle}>How Rich Am I?</Typography>
+        <Hidden xsDown>
+          <div className={classes.menuWrapper}>
+            <MainMenu className={classes.menu} />
+          </div>
+        </Hidden>
       </Toolbar>
     </AppBar>
     <div className={classes.content}>

@@ -9,9 +9,11 @@
     "bignumber.js": "^9.0.0",
     "chartist": "^0.11.4",
     "chartist-plugin-legend": "^0.6.2",
+    "contentful": "^7.14.6",
     "country-data": "^0.0.31",
     "countryinfo": "^1.0.3",
     "deep-equal": "^1.1.0",
+    "deep-filter-object": "^1.0.0",
     "linear-interpolator": "^1.0.2",
     "lodash": "^4.17.15",
     "markdown-to-jsx": "^6.10.3",
@@ -28,8 +30,11 @@
     "sitemap": "^6.2.0"
   },
   "scripts": {
+    "prestart": "yarn menus",
     "start": "react-scripts start",
-    "prebuild": "node ./src/sitemap-builder",
+    "sitemap": "node ./src/scripts/sitemap-builder",
+    "menus": "node ./src/scripts/get-contentful-menu",
+    "prebuild": "yarn sitemap && yarn menus",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -50,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "dotenv": "^8.2.0",
     "eslint": "^6.3.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
