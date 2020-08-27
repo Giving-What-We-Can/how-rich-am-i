@@ -460,7 +460,7 @@ const headingStyles = theme => ({
 
 const Heading = withStyles(headingStyles)(({ classes }) => <header className={classes.root}>
   <Typography variant='h2'>How Rich Am{'\u00A0'}I?</Typography>
-  <Typography variant='subtitle1'>Find out how rich you are compared to the rest of the world</Typography>
+  <Typography variant='subtitle1'>Find out how rich you are compared to the rest of the world – are you on the global rich list?</Typography>
 </header>)
 
 const Methodology = () => <Page showTitle={false} slug='how-rich-am-i-methodology' />
