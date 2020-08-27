@@ -15,6 +15,7 @@
     "linear-interpolator": "^1.0.2",
     "lodash": "^4.17.15",
     "markdown-to-jsx": "^6.10.3",
+    "mz": "^2.7.0",
     "qs": "^6.8.0",
     "react": "^16.9.0",
     "react-chartist": "^0.13.3",
@@ -23,10 +24,12 @@
     "react-helmet": "^6.1.0",
     "react-intl": "^3.2.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.1.1"
+    "react-scripts": "3.1.1",
+    "sitemap": "^6.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "node ./src/sitemap-builder",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

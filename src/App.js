@@ -2,11 +2,9 @@ import React from 'react'
 import { ThemeProvider } from '@material-ui/styles'
 import { createMuiTheme } from '@material-ui/core'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { IntlProvider } from 'react-intl'
 import { ContentfulClient, ContentfulProvider } from 'react-contentful'
-
-import HowRichAmI, { HowRichAmIStandalone } from 'components/HowRichAmI'
+import Router from './Router'
 import { SegmentProvider } from 'components/Segment'
 
 const {
@@ -72,11 +70,7 @@ const App = () => <>
       <IntlProvider locale='en' defaultLocale='en'>
         <CssBaseline />
         <SegmentProvider writeKey={REACT_APP_SEGMENT_WRITE_KEY}>
-          <Router>
-            <Route path='/' exact render={({ location }) => <Redirect to={{ pathname: '/how-rich-am-i', search: location.search }} />} />
-            <Route path='/how-rich-am-i' component={HowRichAmIStandalone} />
-            <Route path='/embed' component={HowRichAmI} />
-          </Router>
+          <Router />
         </SegmentProvider>
       </IntlProvider>
     </ContentfulProvider>
