@@ -2,6 +2,8 @@
 
 A calculator to determine how rich you are compared to the rest of the world.
 
+The [How Rich Am I Calculator](https://howrichami.givingwhatwecan.org/how-rich-am-i) is a project of [Giving What We Can](https://www.givingwhatwecan.org/).
+
 _This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). See their site for docs._
 
 ## Methodology
