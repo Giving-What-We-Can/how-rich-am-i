@@ -179,5 +179,15 @@ describe('calculate', () => {
 
 test('getDonationComparisonAmount', () => {
   const comparison = COMPARISONS.filter(c => c.id === 'bednets')[0]
-  expect(getDonationComparisonAmount(3000, comparison)).toBe(476)
+  expect(getDonationComparisonAmount(498, comparison)).toBe(100)
+})
+
+test('getDonationComparisonAmount', () => {
+  const comparison = COMPARISONS.filter(c => c.id === 'lives')[0]
+  expect(getDonationComparisonAmount(3372, comparison)).toBe(0)
+})
+
+test('getDonationComparisonAmount', () => {
+  const comparison = COMPARISONS.filter(c => c.id === 'lives')[0]
+  expect(getDonationComparisonAmount(3373, comparison)).toBe(1)
 })
