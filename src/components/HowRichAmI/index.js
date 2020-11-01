@@ -22,7 +22,7 @@ import Slider from '@material-ui/core/Slider'
 import Hidden from '@material-ui/core/Hidden'
 
 import COUNTRIES from 'lib/calculate/data/countries.json'
-import { calculate, getCurrencyCode, getDonationComparisonAmount } from 'lib/calculate'
+import { calculate, getCurrencyCode, getDonationComparisonAmount, convertIncome } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { COMPARISONS, MEDIAN_INCOME } from '../../lib/calculate'
@@ -324,7 +324,8 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
   try {
     const donationIncome = getDonationIncome(income, donationPercentage)
     const donationAmount = income - donationIncome
-    const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome, convertedIncome } = calculate({ income: donationIncome, countryCode, household })
+    const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome } = calculate({ income: donationIncome, countryCode, household })
+    const convertedIncome = convertIncome(income, countryCode)
     const donationValue = getDonationValue(convertedIncome, donationPercentage)
     if (incomeCentile <= 50) return null
     return <Grid container spacing={GRID_SPACING} justify='center' className={classes.root}>
