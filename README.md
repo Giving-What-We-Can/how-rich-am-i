@@ -47,6 +47,10 @@ To sanitise:
 
 Other country data, including mapping from countries to currency codes is provided by the [`country-data` package](https://www.npmjs.com/package/country-data).
 
+### Cost of intervention data
+
+Estimates of costs of different interventions was used from [2020 GiveWell cost-effectiveness analysis — version 1](https://docs.google.com/spreadsheets/d/1BmFwVYeGMkpys6hG0tnfHyq__ZFZf-bmXYLSHODGpLY/edit?usp=sharing).
+
 ## Credits
 
 Income centile calculations by [Phil Trammell](https://philiptrammell.com/) and [Rob Wiblin](http://www.robwiblin.com/), code by [Sam Deere](https://app.effectivealtruism.org/funds), based on prior art by Jacob Hilton.

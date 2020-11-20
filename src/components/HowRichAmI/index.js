@@ -427,6 +427,7 @@ DonationComparison.propTypes = {
   comparison: PropTypes.shape({
     id: PropTypes.string.isRequired,
     cost: PropTypes.number.isRequired,
+    fractionDigits: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
     icon: PropTypes.shape({
       paths: PropTypes.array.isRequired,

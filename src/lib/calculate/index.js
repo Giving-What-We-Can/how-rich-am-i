@@ -108,4 +108,4 @@ export const calculate = ({ income, countryCode, household }) => {
 }
 
 export const getDonationComparisonAmount = (donationAmount, comparison) =>
-  Math.floor(donationAmount / comparison.cost)
+  (donationAmount / comparison.cost).toFixed(comparison.fractionDigits)
