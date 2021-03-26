@@ -12,14 +12,10 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import FormHelperText from '@material-ui/core/FormHelperText'
-import Select from '@material-ui/core/Select'
-import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import AssessmentIcon from '@material-ui/icons/Assessment'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import Slider from '@material-ui/core/Slider'
-import Hidden from '@material-ui/core/Hidden'
 
 import COUNTRIES from 'lib/calculate/data/countries.json'
 import { calculate, getCurrencyCode, getDonationComparisonAmount, convertIncome } from 'lib/calculate'
@@ -87,7 +83,6 @@ const validateSettings = ({ income, countryCode, household }) => [
 
 const Controls = withStyles(controlsStyles)(({ income, countryCode, household, onChange, onCalculate, classes }) => {
   // change handlers
-  const handleCountryChange = event => onChange({ countryCode: event.target.value })
 
   const handleIncomeChange = event => {
     const income = parseNumericInput(event.target.value)
