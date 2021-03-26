@@ -262,7 +262,7 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
           <FormattedCurrency value={income} currency={getCurrencyCode(countryCode)} />
         </Typography>
         <Typography className={classes.subMainText}>
-          (i en husholdning på {household.adults} voksne {household.adults > 1 ? '' : ''}
+          (i en husholdning på {household.adults} voks{household.adults > 1 ? 'ne' : 'en'}
           {household.children > 0 && <span>
             {' '}og {household.children} barn{household.children > 1 ? '' : ''}
           </span>}
