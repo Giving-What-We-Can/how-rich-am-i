@@ -8,4 +8,4 @@ steps:
   env: ['CI=true']
   args: ['run', 'build']
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', 'build/*', 'gs://effekt-fb-skattefradrag/']
+  args: ['-m', 'cp', '-r', 'build/*', 'gs://how-rich-am-i/']
