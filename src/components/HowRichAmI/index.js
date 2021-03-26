@@ -40,8 +40,6 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 // standalone
 import AppBar from '@material-ui/core/AppBar'
-import Toolbar from '@material-ui/core/Toolbar'
-import MainMenu from 'components/Menus/MainMenu'
 
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
@@ -104,26 +102,11 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
 
   const isValid = validateSettings({ income, countryCode, household })
 
-  return <form className={classes.root}>
-    <Grid container spacing={GRID_SPACING}>
-
+  return <form className={classes.root} >
+    <Grid container spacing={GRID_SPACING} style={{ display: 'flex', justifyContent: 'center' }}>
       <Grid item xs={12} sm={6} md={3}>
         <FormControl fullWidth>
-          <InputLabel htmlFor="select-country">Country</InputLabel>
-          <Select onChange={handleCountryChange} value={countryCode} inputProps={{
-            name: 'country'
-          }}>
-            {COUNTRIES.map(Country => <MenuItem key={Country.code} value={Country.code}>
-              {Country.name}
-            </MenuItem>)}
-          </Select>
-          <FormHelperText>Select your country</FormHelperText>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={3}>
-        <FormControl fullWidth>
-          <InputLabel htmlFor='income'>Income</InputLabel>
+          <InputLabel htmlFor='income'>Inntekt</InputLabel>
           <CenteredInput
             value={income}
             id='income'
@@ -131,25 +114,24 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
             endAdornment={<InputAdornment position='end'>{getCurrencyCode(countryCode)}</InputAdornment>}
           />
           <FormHelperText>
-            Enter your annual <strong>post-tax</strong> household income in{' '}
-            {getCurrencyCode(countryCode)}
+            Tast inn den årlige <strong>nettolønnen</strong> til din husholdning
           </FormHelperText>
         </FormControl>
       </Grid>
 
       <Grid item xs={12} sm={6} md={3}>
         <FormControl fullWidth>
-          <InputLabel htmlFor='household[adults]'>Adults</InputLabel>
+          <InputLabel htmlFor='household[adults]'>Voksne</InputLabel>
           <CenteredInput value={household.adults} onChange={event => handleHouseholdChange(event, 'adults')} />
-          <FormHelperText>Enter the number of adults in your household</FormHelperText>
+          <FormHelperText>Tast inn antall voksne i din husholdning</FormHelperText>
         </FormControl>
       </Grid>
 
       <Grid item xs={12} sm={6} md={3}>
         <FormControl fullWidth>
-          <InputLabel htmlFor='household[children]'>Children</InputLabel>
+          <InputLabel htmlFor='household[children]'>Barn</InputLabel>
           <CenteredInput value={household.children} onChange={event => handleHouseholdChange(event, 'children')} />
-          <FormHelperText>Enter the number of children in your household</FormHelperText>
+          <FormHelperText>Tast inn antall barn i din husholdning</FormHelperText>
         </FormControl>
       </Grid>
 
@@ -191,8 +173,8 @@ const getIncomeCentileData = ({ incomeCentile, incomeTopPercentile }) => ({
     incomeCentile
   ],
   labels: [
-    `People richer than you (${incomeTopPercentile}%)`,
-    `People you're richer than (${incomeCentile}%)`
+    `Personer rikere enn deg (${incomeTopPercentile}%)`,
+    `Personer du er rikere enn (${incomeCentile}%)`
   ]
 })
 
@@ -276,28 +258,28 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
     return <Grid container spacing={4} justify='center' className={classes.root}>
       <Grid item xs={12}>
         <Typography className={classes.mainText}>
-          If you have a household income of{' '}
+          Hvis husholdningen din har en inntekt på{' '}
           <FormattedCurrency value={income} currency={getCurrencyCode(countryCode)} />
         </Typography>
         <Typography className={classes.subMainText}>
-          (in a household of {household.adults} adult{household.adults > 1 ? 's' : ''}
+          (i en husholdning på {household.adults} voksne {household.adults > 1 ? '' : ''}
           {household.children > 0 && <span>
-            {' '}and {household.children} child{household.children > 1 ? 'ren' : ''}
+            {' '}og {household.children} barn{household.children > 1 ? '' : ''}
           </span>}
           )
         </Typography>
       </Grid>
       <Grid item sm={6}>
         <PieChart data={incomeCentileData} />
-        <Typography className={classes.chartText}>You are in the richest <em>{incomeTopPercentile}%</em> of the global population</Typography>
+        <Typography className={classes.chartText}>Du er i det rikeste <em>{incomeTopPercentile}%</em> av den globale befolkningen</Typography>
       </Grid>
       <Grid item sm={6}>
         <BarChart data={getMedianChartData({ equivalizedIncome })} />
-        <Typography className={classes.chartText}>Your income is more than <em>{medianMultiple}</em> times the global median</Typography>
+        <Typography className={classes.chartText}>Inntekten din er <em>{medianMultiple}</em> ganger den globale medianen</Typography>
         <Typography variant='caption'>
-          Income shown in household-equivalised{' '}
+          Inntekt vist i husholdnings-ekvivalerte{' '}
           <Link href='https://en.wikipedia.org/wiki/International_United_States_dollar' target='_blank' rel='noreferrer'>
-            international dollars (I$)
+            internasjonale dollar (I$)
           </Link>
         </Typography>
       </Grid>
@@ -331,7 +313,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
     return <Grid container spacing={GRID_SPACING} justify='center' className={classes.root}>
       <Grid item xs={12}>
         <Typography className={classes.mainText}>
-          If you were to donate {donationPercentage}% of your income ...
+          Hvis du ville donert {donationPercentage}% av inntekten din ...
         </Typography>
       </Grid>
       <Grid item xs={12}>
@@ -347,23 +329,23 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       </Grid>
       <Grid item sm={12}>
         <Typography className={classes.mainText}>
-          … you would have a household income of{' '}
+          ... ville husholdningen din hatt en inntekt på{' '}
           <FormattedCurrency value={donationIncome} currency={getCurrencyCode(countryCode)} />,{' '}
-          and would make{' '}
+          og gitt{' '}
           <FormattedCurrency value={donationAmount} currency={getCurrencyCode(countryCode)} />{' '}
-          in donations …
+          i donasjoner …
         </Typography>
       </Grid>
       <Grid item sm={6}>
         <PieChart data={getIncomeCentileData({ incomeCentile, incomeTopPercentile })} />
         <Typography className={classes.chartText}>
-          You would still be in the richest <em>{incomeTopPercentile}%</em> of the global population
+          Du ville fortsatt vært i den høyeste <em>{incomeTopPercentile}%</em> av den globale befolkningen
         </Typography>
       </Grid>
       <Grid item sm={6}>
         <BarChart data={getMedianChartData({ equivalizedIncome })} />
         <Typography className={classes.chartText}>
-          Your income would still be more than <em>{medianMultiple}</em> times the global median
+          Inntekten din ville fortsatt vært <em>{medianMultiple}</em> ganger den globale medianen
         </Typography>
       </Grid>
       <Grid item sm={12}>
@@ -446,7 +428,7 @@ const donationComparisonsStyles = theme => ({
 
 const DonationComparisons = withStyles(donationComparisonsStyles)(({ value, classes }) => <Grid container spacing={GRID_SPACING} justify='center'>
   <Grid item xs={12}>
-    <Typography className={classes.mainText}>… and each year your donations could fund …</Typography>
+    <Typography className={classes.mainText}>… og hvert år kunne donasjonene dine ført til …</Typography>
   </Grid>
   {COMPARISONS.map(Comparison => <Grid item xs={12} md={4} key={Comparison.id}>
     <DonationComparison value={value} comparison={Comparison} />
@@ -464,8 +446,8 @@ const headingStyles = theme => ({
 })
 
 const Heading = withStyles(headingStyles)(({ classes }) => <header className={classes.root}>
-  <Typography variant='h2'>How Rich Am{'\u00A0'}I?</Typography>
-  <Typography variant='subtitle1'>Find out how rich you are compared to the rest of the world – are you on the global rich list?</Typography>
+  <Typography variant='h2'>Hvor rik er {'\u00A0'}jeg?</Typography>
+  <Typography variant='subtitle1'>Finn ut hvor rik du er sammenlignet med resten av verden - er du på den globale rikinglista?</Typography>
 </header>)
 
 const Methodology = () => <Page showTitle={false} slug='how-rich-am-i-methodology' />
@@ -508,7 +490,7 @@ const creditsStyles = theme => ({
 })
 const Credits = withStyles(creditsStyles)(({ classes }) => <div className={classes.root}>
   <Typography>
-    The How Rich Am I Calculator is a project of <a href='https://www.givingwhatwecan.org'>Giving What We Can</a>
+
   </Typography>
 </div>)
 
@@ -529,21 +511,10 @@ const callToActionStyles = theme => ({
 })
 
 const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid container spacing={GRID_SPACING} justify='center'>
-  <Grid item xs={8}>
-    <Grid container spacing={GRID_SPACING}>
+  <Grid item xs={8} display="flex" justifyContent="center" alignItems="center">
+    <Grid container spacing={GRID_SPACING} >
       <Grid item xs={12}>
-        <div className={classes.logoBackground}>
-          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography paragraph>We{"'"}re a global community of people pledging to donate more, and donate more effectively.</Typography>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Button href='https://www.givingwhatwecan.org' color='secondary' variant='contained' fullWidth>Learn more</Button>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Button href='https://www.givingwhatwecan.org/pledge' color='primary' variant='contained' fullWidth>Take the Pledge</Button>
+        <Typography paragraph>Denne kalkulatoren er et prosjekt av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer"> Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner</Typography>
       </Grid>
     </Grid>
   </Grid>
@@ -594,12 +565,12 @@ const styles = theme => ({
 })
 
 class _HowRichAmI extends React.PureComponent {
-  constructor (props) {
+  constructor(props) {
     super(props)
     const qsSettings = this.getSettingsFromQueryString(props)
     const settings = {
       income: '',
-      countryCode: 'USA',
+      countryCode: 'NOR',
       household: {
         adults: 1,
         children: 0
@@ -669,7 +640,7 @@ class _HowRichAmI extends React.PureComponent {
 
   setShowMethodologyDialog = showMethodologyDialog => this.setState({ showMethodologyDialog })
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     // update our state if we hit the back button
     if (this.props.location.search !== prevProps.location.search) {
       const settings = this.getSettingsFromQueryString(this.props)
@@ -683,7 +654,7 @@ class _HowRichAmI extends React.PureComponent {
     return <div className={classes.container}>
       <Heading />
       <SpacedDivider variant='middle' />
-      <Controls {...this.state} onChange={this.handleControlsChange} onCalculate={this.handleCalculate}/>
+      <Controls {...this.state} onChange={this.handleControlsChange} onCalculate={this.handleCalculate} />
       {showCalculations && <React.Fragment>
         <SpacedDivider variant='middle' />
         <Calculation {...this.state} />
@@ -691,9 +662,6 @@ class _HowRichAmI extends React.PureComponent {
         <SpacedDivider variant='middle' />
         <CallToAction />
         <SpacedDivider variant='middle' />
-        {standalone && <Button variant='contained' onClick={() => this.setShowMethodologyDialog(true)}>
-          Methodology and Data Sources <AssessmentIcon />
-        </Button>}
       </React.Fragment>}
       {standalone && <Credits />}
       <MethodologyDialog open={showMethodologyDialog} onClose={() => this.setShowMethodologyDialog(false)} />
@@ -737,21 +705,7 @@ const standaloneStyles = theme => ({
 export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
   <Container fixed className={classes.root}>
     <AppBar position='fixed'>
-      <Container fixed>
-        <Toolbar disableGutters>
-          <a href='https://givingwhatwecan.org'>
-            <div className={classes.logoBackground}>
-              <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
-            </div>
-          </a>
-          <Typography variant='h6' className={classes.menuTitle}>How Rich Am I?</Typography>
-          <Hidden smDown>
-            <div className={classes.menuWrapper}>
-              <MainMenu className={classes.menu} />
-            </div>
-          </Hidden>
-        </Toolbar>
-      </Container>
+
     </AppBar>
     <div className={classes.content}>
       <HowRichAmI standalone />

@@ -13,7 +13,7 @@ const {
   REACT_APP_SEGMENT_WRITE_KEY
 } = process.env
 
-const primaryColor = '#6c0000'
+const primaryColor = '#fb8f29'
 const secondaryColor = '#edede5'
 const sliderHeight = 12
 
