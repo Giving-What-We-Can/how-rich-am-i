@@ -174,7 +174,7 @@ const getIncomeCentileData = ({ incomeCentile, incomeTopPercentile }) => ({
 })
 
 const getMedianChartData = ({ equivalizedIncome }) => ({
-  labels: ["Median person's income", 'Your income'],
+  labels: ['Global medianinntekt', 'Din inntekt'],
   series: [
     [MEDIAN_INCOME, equivalizedIncome]
   ]
@@ -509,7 +509,14 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
   <Grid item xs={8} display="flex" justifyContent="center" alignItems="center">
     <Grid container spacing={GRID_SPACING} >
       <Grid item xs={12}>
-        <Typography paragraph>Denne kalkulatoren er et prosjekt av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer"> Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner</Typography>
+
+        <a href="https://gieffektivt.no/gi#doner">
+          <button style={{ width: '150px', height: '80px', border: 'none', backgroundColor: '#fb8f29', color: 'white', fontSize: '30px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '35px' }}>Gi nå</button>
+        </a>
+        <Typography paragraph>Denne kalkulatoren er et utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
+          Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner, følg{' '}
+          <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>denne linken</a>{' '}
+        for å lese mer og bli medlem!</Typography>
       </Grid>
     </Grid>
   </Grid>
