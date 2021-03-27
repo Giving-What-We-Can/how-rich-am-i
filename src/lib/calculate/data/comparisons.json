@@ -26,7 +26,7 @@
   {
     "id": "lives",
     "cost": 3373,
-    "description": "ekvivalent med å redde %% friske menneskeliv",
+    "description": "å redde det ekvivalente med %% friske menneskeliv",
     "fractionDigits": 1,
     "icon": {
       "paths": [

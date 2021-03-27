@@ -1,66 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
-    <meta name="theme-color" content="#000000" />
-    <link rel=apple-touch-icon sizes=57x57 href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-57x57.png> <link rel=apple-touch-icon
-      sizes=60x60 href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-60x60.png> <link rel=apple-touch-icon sizes=72x72
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-72x72.png> <link rel=apple-touch-icon sizes=76x76
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-76x76.png> <link rel=apple-touch-icon sizes=114x114
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-114x114.png> <link rel=apple-touch-icon sizes=120x120
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-120x120.png> <link rel=apple-touch-icon sizes=144x144
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-144x144.png> <link rel=apple-touch-icon sizes=152x152
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-152x152.png> <link rel=apple-touch-icon sizes=180x180
-      href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-180x180.png> <link rel=icon type=image/png
-      href=https://www.givingwhatwecan.org/images/favicons/favicon-32x32.png sizes=32x32>
-    <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/android-chrome-192x192.png sizes=192x192>
-    <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/favicon-96x96.png sizes=96x96>
-    <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/favicon-16x16.png sizes=16x16>
-    <link rel=manifest href=https://www.givingwhatwecan.org/images/favicons/manifest.json> <link rel="shortcut icon" href=https://www.givingwhatwecan.org/images/favicons/favicon.ico>
-      <meta name=apple-mobile-web-app-title content="Giving What We Can">
-    <meta name=application-name content="Giving What We Can">
-    <meta name=msapplication-TileColor content=#6e0000>
-    <meta name=msapplication-TileImage content=https://www.givingwhatwecan.org/images/favicons/mstile-144x144.png> <meta name=msapplication-config
-      content=https://www.givingwhatwecan.org/images/favicons/browserconfig.xml> <meta name=theme-color content=#ffffff>
-    <!--
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no" />
+  <meta name="theme-color" content="#000000" />
+  <link rel=apple-touch-icon sizes=57x57
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-57x57.png>
+  <link rel=apple-touch-icon sizes=60x60
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-60x60.png>
+  <link rel=apple-touch-icon sizes=72x72
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-72x72.png>
+  <link rel=apple-touch-icon sizes=76x76
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-76x76.png>
+  <link rel=apple-touch-icon sizes=114x114
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-114x114.png>
+  <link rel=apple-touch-icon sizes=120x120
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-120x120.png>
+  <link rel=apple-touch-icon sizes=144x144
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-144x144.png>
+  <link rel=apple-touch-icon sizes=152x152
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-152x152.png>
+  <link rel=apple-touch-icon sizes=180x180
+    href=https://www.givingwhatwecan.org/images/favicons/apple-touch-icon-180x180.png>
+  <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/favicon-32x32.png sizes=32x32>
+  <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/android-chrome-192x192.png
+    sizes=192x192>
+  <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/favicon-96x96.png sizes=96x96>
+  <link rel=icon type=image/png href=https://www.givingwhatwecan.org/images/favicons/favicon-16x16.png sizes=16x16>
+  <link rel=manifest href=https://www.givingwhatwecan.org/images/favicons/manifest.json>
+  <link rel="shortcut icon" href=https://www.givingwhatwecan.org/images/favicons/favicon.ico>
+  <meta name=apple-mobile-web-app-title content="Giving What We Can">
+  <meta name=application-name content="Giving What We Can">
+  <meta name=msapplication-TileColor content=#6e0000>
+  <meta name=msapplication-TileImage content=https://www.givingwhatwecan.org/images/favicons/mstile-144x144.png>
+  <meta name=msapplication-config content=https://www.givingwhatwecan.org/images/favicons/browserconfig.xml>
+  <meta name=theme-color content=#ffffff>
+  <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
-    <script src="%PUBLIC_URL%/iframeResizer.contentWindow.min.js" type="text/javascript"></script>
-    <script id="mcjs">!function (c, h, i, m, p) { m = c.createElement(h), p = c.getElementsByTagName(h)[0], m.async = 1, m.src = i, p.parentNode.insertBefore(m, p) }(document, "script", "https://chimpstatic.com/mcjs-connected/js/users/52b028e7f799cca137ef74763/d718eef32917b166ea5003586.js");</script>    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,500,700&display=swap" />
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
+  <!-- Segment tracking code snippet. Initialized in the app -->
+  <script>
+    !function () {
+      var analytics = window.analytics = window.analytics || []; if (!analytics.initialize) if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice."); else {
+        analytics.invoked = !0; analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"]; analytics.factory = function (e) { return function () { var t = Array.prototype.slice.call(arguments); t.unshift(e); analytics.push(t); return analytics } }; for (var e = 0; e < analytics.methods.length; e++) { var t = analytics.methods[e]; analytics[t] = analytics.factory(t) } analytics.load = function (e, t) { var n = document.createElement("script"); n.type = "text/javascript"; n.async = !0; n.src = "https://cdn.segment.com/analytics.js/v1/" + e + "/analytics.min.js"; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(n, a); analytics._loadOptions = t }; analytics.SNIPPET_VERSION = "4.1.0";
+      }
+    }();
+  </script>
 
-    <!-- Segment tracking code snippet. Initialized in the app -->
-    <script>
-      !function () {
-        var analytics = window.analytics = window.analytics || []; if (!analytics.initialize) if (analytics.invoked) window.console && console.error && console.error("Segment snippet included twice."); else {
-          analytics.invoked = !0; analytics.methods = ["trackSubmit", "trackClick", "trackLink", "trackForm", "pageview", "identify", "reset", "group", "track", "ready", "alias", "debug", "page", "once", "off", "on", "addSourceMiddleware", "addIntegrationMiddleware", "setAnonymousId", "addDestinationMiddleware"]; analytics.factory = function (e) { return function () { var t = Array.prototype.slice.call(arguments); t.unshift(e); analytics.push(t); return analytics } }; for (var e = 0; e < analytics.methods.length; e++) { var t = analytics.methods[e]; analytics[t] = analytics.factory(t) } analytics.load = function (e, t) { var n = document.createElement("script"); n.type = "text/javascript"; n.async = !0; n.src = "https://cdn.segment.com/analytics.js/v1/" + e + "/analytics.min.js"; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(n, a); analytics._loadOptions = t }; analytics.SNIPPET_VERSION = "4.1.0";
-        }
-      }();
-    </script>
+  <title>How Rich Am I? - World Income Percentile Calculator: Global Rich List - Giving What We Can</title>
+  <meta name='description'
+    content="Calculate how rich you are compared to the rest of the world. Are you in the global top 1 percent? Does your household income make you wealthy?" />
+  <link rel='canonical' href='https://howrichami.givingwhatwecan.org/how-rich-am-i' />
+  <meta property="og:title" content="How Rich Am I? World Income Percentile Calculator: Global Rich List" />
+  <meta property="og:description"
+    content="Calculate how rich you are compared to the rest of the world. Are you in the global top 1-5 percent? Does your household income make you wealthy?" />
+  <meta property="og:image"
+    content="https://images.ctfassets.net/dhpcfh1bs3p6/6sBlXpkGd4YWIflZyvoY56/e67260301e056b6272c629f079c0926a/Preview-01.jpg" />
+</head>
 
-    <title>How Rich Am I? - World Income Percentile Calculator: Global Rich List - Giving What We Can</title>
-    <meta name='description' content="Calculate how rich you are compared to the rest of the world. Are you in the global top 1 percent? Does your household income make you wealthy?" />
-    <link rel='canonical' href='https://howrichami.givingwhatwecan.org/how-rich-am-i' />
-    <meta property="og:title" content="How Rich Am I? World Income Percentile Calculator: Global Rich List" />
-    <meta property="og:description" content="Calculate how rich you are compared to the rest of the world. Are you in the global top 1-5 percent? Does your household income make you wealthy?" />
-    <meta property="og:image" content="https://images.ctfassets.net/dhpcfh1bs3p6/6sBlXpkGd4YWIflZyvoY56/e67260301e056b6272c629f079c0926a/Preview-01.jpg" />
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-    <!--
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -70,5 +77,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

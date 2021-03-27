@@ -202,7 +202,7 @@ const calculationStyles = theme => ({
     }
   },
   mainText: {
-    color: theme.palette.primary.main,
+    color: 'black',
     fontSize: '2rem',
     fontWeight: 700
   },
@@ -212,7 +212,7 @@ const calculationStyles = theme => ({
 
   },
   chartText: {
-    color: theme.palette.primary.main,
+    color: 'theme.palette.primary.main',
     fontSize: '1.25rem',
     fontWeight: 700
   }
