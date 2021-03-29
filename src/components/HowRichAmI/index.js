@@ -510,7 +510,7 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
     <Grid container spacing={GRID_SPACING} >
       <Grid item xs={12}>
 
-        <a href="https://gieffektivt.no/gi#doner">
+        <a href="https://gieffektivt.no/gi#doner" target="_blank" rel="noopener noreferrer">
           <button style={{ width: '150px', height: '80px', border: 'none', backgroundColor: '#fb8f29', color: 'white', fontSize: '30px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '35px' }}>Gi nå</button>
         </a>
         <Typography paragraph>Denne kalkulatoren er et utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
