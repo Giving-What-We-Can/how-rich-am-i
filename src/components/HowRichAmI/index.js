@@ -109,7 +109,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
             endAdornment={<InputAdornment position='end'>{getCurrencyCode(countryCode)}</InputAdornment>}
           />
           <FormHelperText>
-            Tast inn den årlige <strong>nettolønnen</strong> til din husholdning
+            Oppgi total inntekt <strong>etter skatt</strong> for husholdningen din. En gjennomsnittlig inntekt i Norge reduseres med ca 25% etter skatt.
           </FormHelperText>
         </FormControl>
       </Grid>
@@ -118,7 +118,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
         <FormControl fullWidth>
           <InputLabel htmlFor='household[adults]'>Voksne</InputLabel>
           <CenteredInput value={household.adults} onChange={event => handleHouseholdChange(event, 'adults')} />
-          <FormHelperText>Tast inn antall voksne i din husholdning</FormHelperText>
+          <FormHelperText>Oppgi antall voksne i husholdningen din</FormHelperText>
         </FormControl>
       </Grid>
 
@@ -126,7 +126,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
         <FormControl fullWidth>
           <InputLabel htmlFor='household[children]'>Barn</InputLabel>
           <CenteredInput value={household.children} onChange={event => handleHouseholdChange(event, 'children')} />
-          <FormHelperText>Tast inn antall barn i din husholdning</FormHelperText>
+          <FormHelperText>Oppgi antall barn i husholdningen din</FormHelperText>
         </FormControl>
       </Grid>
 
@@ -266,7 +266,7 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
       </Grid>
       <Grid item sm={6}>
         <PieChart data={incomeCentileData} />
-        <Typography className={classes.chartText}>Du er i det rikeste <em>{incomeTopPercentile}%</em> av den globale befolkningen</Typography>
+        <Typography className={classes.chartText}>Du er blant verdens <em>{incomeTopPercentile}%</em> rikeste</Typography>
       </Grid>
       <Grid item sm={6}>
         <BarChart data={getMedianChartData({ equivalizedIncome })} />
@@ -308,7 +308,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
     return <Grid container spacing={GRID_SPACING} justify='center' className={classes.root}>
       <Grid item xs={12}>
         <Typography className={classes.mainText}>
-          Hvis du ville donert {donationPercentage}% av inntekten din ...
+          Hvis du hadde donert {donationPercentage}% av inntekten din ...
         </Typography>
       </Grid>
       <Grid item xs={12}>
@@ -324,9 +324,9 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       </Grid>
       <Grid item sm={12}>
         <Typography className={classes.mainText}>
-          ... ville husholdningen din hatt en inntekt på{' '}
+          ... ville husholdningen din fortsatt hatt en inntekt på{' '}
           <FormattedCurrency value={donationIncome} currency={getCurrencyCode(countryCode)} />,{' '}
-          og gitt{' '}
+          i tillegg {' '}
           <FormattedCurrency value={donationAmount} currency={getCurrencyCode(countryCode)} />{' '}
           i donasjoner …
         </Typography>
@@ -334,7 +334,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       <Grid item sm={6}>
         <PieChart data={getIncomeCentileData({ incomeCentile, incomeTopPercentile })} />
         <Typography className={classes.chartText}>
-          Du ville fortsatt vært i den høyeste <em>{incomeTopPercentile}%</em> av den globale befolkningen
+          Du ville fortsatt vært blant verdens <em>{incomeTopPercentile}%</em> rikeste.
         </Typography>
       </Grid>
       <Grid item sm={6}>
@@ -442,7 +442,7 @@ const headingStyles = theme => ({
 
 const Heading = withStyles(headingStyles)(({ classes }) => <header className={classes.root}>
   <Typography variant='h2'>Hvor rik er {'\u00A0'}jeg?</Typography>
-  <Typography variant='subtitle1'>Finn ut hvor rik du er sammenlignet med resten av verden - er du på den globale rikinglista?</Typography>
+  <Typography variant='subtitle1'>Finn ut hvor rik du er sammenlignet med resten av verden. Er du blant verdens rikeste?</Typography>
 </header>)
 
 const Methodology = () => <Page showTitle={false} slug='how-rich-am-i-methodology' />
@@ -514,9 +514,9 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
           <button style={{ width: '150px', height: '80px', border: 'none', backgroundColor: '#fb8f29', color: 'white', fontSize: '30px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '35px' }}>Gi nå</button>
         </a>
         <Typography paragraph>Denne kalkulatoren er et utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
-          Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner, følg{' '}
+          Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner. Følg{' '}
           <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>denne linken</a>{' '}
-        for å lese mer og bli medlem!</Typography>
+        for å lese mer og bli medlem, og bli gjerne med i Facebook-grupper <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>{' '}!</Typography>
       </Grid>
     </Grid>
   </Grid>
