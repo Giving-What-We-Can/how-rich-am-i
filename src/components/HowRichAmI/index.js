@@ -106,7 +106,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
             value={income}
             id='income'
             onChange={handleIncomeChange}
-            endAdornment={<InputAdornment position='end'>{getCurrencyCode(countryCode)}</InputAdornment>}
+            endAdornment={<InputAdornment position='end'>{'kr'}</InputAdornment>}
           />
           <FormHelperText>
             Oppgi total inntekt <strong>etter skatt</strong> for husholdningen din. En gjennomsnittlig inntekt i Norge reduseres med ca 25% etter skatt.
@@ -235,6 +235,12 @@ FormattedCurrency.propTypes = {
   maximumFractionDigits: PropTypes.number
 }
 
+function formatCurrency(currencyString) {
+  console.log((currencyString.toString().length))
+  return Number.parseInt(currencyString).toFixed(0)
+    .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
+}
+
 const Calculation = withStyles(calculationStyles)(({ income, countryCode, household, classes }) => {
   try {
     const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome } = calculate({ income, countryCode, household })
@@ -250,11 +256,12 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
     }
     const incomeCentileData = getIncomeCentileData({ incomeCentile, incomeTopPercentile })
 
+
     return <Grid container spacing={4} justify='center' className={classes.root}>
       <Grid item xs={12}>
         <Typography className={classes.mainText}>
           Hvis husholdningen din har en inntekt på{' '}
-          <FormattedCurrency value={income} currency={getCurrencyCode(countryCode)} />
+          {formatCurrency(income)} kr
         </Typography>
         <Typography className={classes.subMainText}>
           (i en husholdning på {household.adults} voks{household.adults > 1 ? 'ne' : 'en'}
@@ -325,10 +332,12 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       <Grid item sm={12}>
         <Typography className={classes.mainText}>
           ... ville husholdningen din fortsatt hatt en inntekt på{' '}
-          <FormattedCurrency value={donationIncome} currency={getCurrencyCode(countryCode)} />,{' '}
-          i tillegg {' '}
-          <FormattedCurrency value={donationAmount} currency={getCurrencyCode(countryCode)} />{' '}
-          i donasjoner …
+          {formatCurrency(donationIncome)} kr,
+          {' '}
+          <br />
+            i tillegg {' '}
+          {formatCurrency(donationAmount)} kr
+            i donasjoner …
         </Typography>
       </Grid>
       <Grid item sm={6}>
@@ -346,7 +355,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       <Grid item sm={12}>
         <DonationComparisons value={donationValue} />
       </Grid>
-    </Grid>
+    </Grid >
   } catch (err) {
     console.warn(err)
     return null
@@ -513,10 +522,10 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
         <a href="https://gieffektivt.no/gi#doner" target="_blank" rel="noopener noreferrer">
           <button style={{ width: '150px', height: '80px', border: 'none', backgroundColor: '#fb8f29', color: 'white', fontSize: '30px', fontWeight: 'bold', cursor: 'pointer', marginBottom: '35px' }}>Gi nå</button>
         </a>
-        <Typography paragraph>Denne kalkulatoren er et utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
+        <Typography paragraph>Denne kalkulatoren er utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
           Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner. Følg{' '}
           <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>denne linken</a>{' '}
-        for å lese mer og bli medlem, og bli gjerne med i Facebook-grupper <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>{' '}!</Typography>
+        for å lese mer og bli medlem, og bli gjerne med i Facebook-gruppen <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>{' '}!</Typography>
       </Grid>
     </Grid>
   </Grid>
