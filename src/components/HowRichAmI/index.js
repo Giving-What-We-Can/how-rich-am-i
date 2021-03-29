@@ -18,7 +18,7 @@ import SvgIcon from '@material-ui/core/SvgIcon'
 import Slider from '@material-ui/core/Slider'
 
 import COUNTRIES from 'lib/calculate/data/countries.json'
-import { calculate, getCurrencyCode, getDonationComparisonAmount, convertIncome } from 'lib/calculate'
+import { calculate, getDonationComparisonAmount, convertIncome } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
 import BigNumber from 'bignumber.js'
 import { COMPARISONS, MEDIAN_INCOME } from '../../lib/calculate'

@@ -40,7 +40,7 @@ export const getCurrency = countryCode => {
     else console.warn(err)
   }
 }
-export const getCurrencyCode = countryCode => getCurrency(countryCode).alphaCode
+// export const getCurrencyCode = countryCode => getCurrency(countryCode).alphaCode
 
 // calculate how to adjust for household size using OECD equivalised income
 // the weightings are for first adult, subsequent adults and children respectively:
