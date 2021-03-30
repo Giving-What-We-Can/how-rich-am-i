@@ -16,7 +16,7 @@ import Button from '@material-ui/core/Button'
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import Slider from '@material-ui/core/Slider'
-
+import AssessmentIcon from '@material-ui/icons/Assessment'
 import COUNTRIES from 'lib/calculate/data/countries.json'
 import { calculate, getDonationComparisonAmount, convertIncome } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
@@ -134,7 +134,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
 
     <Grid container justify='center' spacing={GRID_SPACING}>
       <Grid item xs={12} sm={8} md={6}>
-        <Button fullWidth color='primary' variant='contained' disabled={!isValid} onClick={onCalculate}>Calculate <CheckCircleIcon /></Button>
+        <Button fullWidth color='primary' variant='contained' style={{ textTransform: 'none' }} disabled={!isValid} onClick={onCalculate}>Vis meg hvor rik jeg er  <CheckCircleIcon style={{ marginLeft: '5px' }} /></Button>
       </Grid>
     </Grid>
   </form>
@@ -168,8 +168,8 @@ const getIncomeCentileData = ({ incomeCentile, incomeTopPercentile }) => ({
     incomeCentile
   ],
   labels: [
-    `Personer rikere enn deg (${incomeTopPercentile}%)`,
-    `Personer du er rikere enn (${incomeCentile}%)`
+    `Personer rikere enn deg (${incomeTopPercentile.toString().replace('.', ',')}%)`,
+    `Personer du er rikere enn (${incomeCentile.toString().replace('.', ',')}%)`
   ]
 })
 
@@ -236,9 +236,17 @@ FormattedCurrency.propTypes = {
 }
 
 function formatCurrency(currencyString) {
-  console.log((currencyString.toString().length))
-  return Number.parseInt(currencyString).toFixed(0)
+  return parseFloat(currencyString).toFixed(parseInt(currencyString) < 90 ? 1 : 0)
     .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
+    .replace(',', ' ')
+    .replace(',', ' ')
+}
+
+function formatDecimalsNOK(currencyString) {
+  return parseFloat(currencyString).toFixed(parseInt(currencyString) < 90 ? 1 : 0)
+    .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1,')
+    .replace(',', ' ')
+    .replace('.', ',')
 }
 
 const Calculation = withStyles(calculationStyles)(({ income, countryCode, household, classes }) => {
@@ -248,8 +256,8 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
       return <Grid container spacing={GRID_SPACING}>
         <Grid item xs={12}>
           <Typography paragraph>
-            Sorry, the income you entered is below the global median income.{' '}
-            We only have data for incomes higher than the global median.
+            Beklager, men inntekten du har oppgitt er lavere enn den globale medianinntekten.
+            Vi har kun data for inntekter som er høyere den globale medianen.{' '}
           </Typography>
         </Grid>
       </Grid>
@@ -273,11 +281,11 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
       </Grid>
       <Grid item sm={6}>
         <PieChart data={incomeCentileData} />
-        <Typography className={classes.chartText}>Du er blant verdens <em>{incomeTopPercentile}%</em> rikeste</Typography>
+        <Typography className={classes.chartText}>Du er blant verdens <em>{incomeTopPercentile.toString().replace('.', ',')}%</em> rikeste</Typography>
       </Grid>
       <Grid item sm={6}>
         <BarChart data={getMedianChartData({ equivalizedIncome })} />
-        <Typography className={classes.chartText}>Inntekten din er <em>{medianMultiple}</em> ganger den globale medianen</Typography>
+        <Typography className={classes.chartText}>Inntekten din er <em>{medianMultiple.toString().replace('.', ',')}</em> ganger den globale medianen</Typography>
         <Typography variant='caption'>
           Inntekt vist i husholdnings-ekvivalerte{' '}
           <Link href='https://en.wikipedia.org/wiki/International_United_States_dollar' target='_blank' rel='noreferrer'>
@@ -296,10 +304,13 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
 
 const formatPercentage = val => `${val}%`
 
-const MAX_DONATION_SLIDER_VALUE = 50
-const DONATION_SLIDER_MARKS = [...Array(MAX_DONATION_SLIDER_VALUE).keys()]
-  .filter(v => v % 5 === 0)
+const MAX_DONATION_SLIDER_VALUE = 99
+const DONATION_SLIDER_MARKS = [...Array(MAX_DONATION_SLIDER_VALUE + 10).keys()]
+  .filter(v => v % 10 === 0)
   .map(v => ({ value: v, label: formatPercentage(v) }))
+DONATION_SLIDER_MARKS[0].label = '1%'
+DONATION_SLIDER_MARKS.pop()
+DONATION_SLIDER_MARKS.push({ value: 99, label: '100%' })
 
 export const getDonationIncome = (income, donationPercentage) => BigNumber(income * (100 - donationPercentage) / 100).dp(2).toNumber()
 export const getDonationValue = (income, donationPercentage) => BigNumber(income).minus(getDonationIncome(income, donationPercentage)).dp(2).toNumber()
@@ -311,7 +322,6 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
     const { incomeCentile, incomeTopPercentile, medianMultiple, equivalizedIncome } = calculate({ income: donationIncome, countryCode, household })
     const convertedIncome = convertIncome(income, countryCode)
     const donationValue = getDonationValue(convertedIncome, donationPercentage)
-    if (incomeCentile <= 50) return null
     return <Grid container spacing={GRID_SPACING} justify='center' className={classes.root}>
       <Grid item xs={12}>
         <Typography className={classes.mainText}>
@@ -322,39 +332,49 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
         <Slider
           value={donationPercentage}
           getAriaValueText={formatPercentage}
-          step={donationPercentage >= 20 ? 5 : 1}
+          step={1}
           min={1}
           max={MAX_DONATION_SLIDER_VALUE}
           marks={DONATION_SLIDER_MARKS}
           onChange={onDonationPercentageChange}
         />
       </Grid>
-      <Grid item sm={12}>
-        <Typography className={classes.mainText}>
-          ... ville husholdningen din fortsatt hatt en inntekt på{' '}
-          {formatCurrency(donationIncome)} kr,
-          {' '}
-          <br />
-            i tillegg {' '}
-          {formatCurrency(donationAmount)} kr
-            i donasjoner …
-        </Typography>
-      </Grid>
-      <Grid item sm={6}>
-        <PieChart data={getIncomeCentileData({ incomeCentile, incomeTopPercentile })} />
-        <Typography className={classes.chartText}>
-          Du ville fortsatt vært blant verdens <em>{incomeTopPercentile}%</em> rikeste.
-        </Typography>
-      </Grid>
-      <Grid item sm={6}>
-        <BarChart data={getMedianChartData({ equivalizedIncome })} />
-        <Typography className={classes.chartText}>
-          Inntekten din ville fortsatt vært <em>{medianMultiple}</em> ganger den globale medianen
-        </Typography>
-      </Grid>
-      <Grid item sm={12}>
-        <DonationComparisons value={donationValue} />
-      </Grid>
+      {incomeCentile >= 50 ? (
+        <div>
+          <Grid item sm={12}>
+            <Typography className={classes.mainText} style={{ marginTop: '30px' }}>
+              ... ville husholdningen din fortsatt hatt en inntekt på{' '}
+              {formatCurrency(donationIncome)} kr,
+              {' '}
+              <br />
+                i tillegg {' '}
+              {formatCurrency(donationAmount)} kr
+                i donasjoner …
+            </Typography>
+          </Grid>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Grid item sm={6}>
+              <PieChart data={getIncomeCentileData({ incomeCentile, incomeTopPercentile })} />
+              <Typography className={classes.chartText}>
+                Du ville fortsatt vært blant verdens <em>{incomeTopPercentile.toString().replace('.', ',')}%</em> rikeste.
+              </Typography>
+            </Grid>
+            <Grid item sm={6}>
+              <BarChart data={getMedianChartData({ equivalizedIncome })} />
+              <Typography className={classes.chartText}>
+                Inntekten din ville fortsatt vært <em>{medianMultiple.toString().replace('.', ',')}</em> ganger den globale medianen
+              </Typography>
+            </Grid>
+          </div>
+          <Grid item sm={12}>
+            <DonationComparisons value={donationValue} />
+          </Grid>
+        </div>
+      )
+        : (
+          <h3>Vi har dessverre ikke tall for inntekter lavere enn den globale medianinntekten, vennligst prøv å redusere donasjonsprosenten.</h3>
+        )
+      }
     </Grid >
   } catch (err) {
     console.warn(err)
@@ -385,7 +405,7 @@ const DonationComparison = withStyles(donationComparisonStyles)(({ value, compar
   const parts = comparison.description.split(DONATION_COMPARISON_PLACEHOLDER)
   const elements = [
     parts[0],
-    <strong key='comparison-value'><FormattedNumber value={getDonationComparisonAmount(value, comparison)} /></strong>,
+    <strong key='comparison-value'>{formatDecimalsNOK(getDonationComparisonAmount(value, comparison))} </strong>,
     parts[1]
   ].map((el, i) => <span key={i}>{el}</span>)
   return <Grid spacing={GRID_SPACING} container className={classes.root} alignItems='center'>
@@ -432,7 +452,7 @@ const donationComparisonsStyles = theme => ({
 
 const DonationComparisons = withStyles(donationComparisonsStyles)(({ value, classes }) => <Grid container spacing={GRID_SPACING} justify='center'>
   <Grid item xs={12}>
-    <Typography className={classes.mainText}>… og hvert år kunne donasjonene dine ført til …</Typography>
+    <Typography className={classes.mainText} style={{ marginTop: '50px' }}>… og hvert år kunne donasjonene dine ført til enten…</Typography>
   </Grid>
   {COMPARISONS.map(Comparison => <Grid item xs={12} md={4} key={Comparison.id}>
     <DonationComparison value={value} comparison={Comparison} />
@@ -450,7 +470,7 @@ const headingStyles = theme => ({
 })
 
 const Heading = withStyles(headingStyles)(({ classes }) => <header className={classes.root}>
-  <Typography variant='h2'>Hvor rik er {'\u00A0'}jeg?</Typography>
+  <Typography variant='h2'>Hvor rik er jeg?</Typography>
   <Typography variant='subtitle1'>Finn ut hvor rik du er sammenlignet med resten av verden. Er du blant verdens rikeste?</Typography>
 </header>)
 
@@ -472,7 +492,8 @@ const methodologyDialogStyles = theme => ({
 const MethodologyDialog = withStyles(methodologyDialogStyles)(({ open, onClose, classes }) =>
   <Dialog onClose={onClose} open={open} aria-labelledby='methodology-title' className={classes.root}>
     <DialogTitle disableTypography >
-      <Typography id='methodology-title' variant='h3'>Methodology</Typography>
+      <Typography id='methodology-title' variant='h3'>Metode og datakilder</Typography>
+      <Typography id='methodology-title' variant='h5'>Levert av Giving What We Can</Typography>
       <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
         <CloseIcon />
       </IconButton>
@@ -525,7 +546,7 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
         <Typography paragraph>Denne kalkulatoren er utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
           Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner. Følg{' '}
           <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>denne linken</a>{' '}
-        for å lese mer og bli medlem, og bli gjerne med i Facebook-gruppen <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>{' '}!</Typography>
+        for å lese mer og bli medlem, og bli gjerne med i Facebook-gruppen <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>!</Typography>
       </Grid>
     </Grid>
   </Grid>
@@ -626,6 +647,7 @@ class _HowRichAmI extends React.PureComponent {
   updateQueryString = (method = 'push') => {
     const { history, location } = this.props
     const { income, countryCode, household } = this.state
+    console.log(location.pathname)
     history[method]({
       pathname: location.pathname,
       search: `?${qs.stringify({ income, countryCode, household })}`
@@ -673,6 +695,9 @@ class _HowRichAmI extends React.PureComponent {
         <SpacedDivider variant='middle' />
         <CallToAction />
         <SpacedDivider variant='middle' />
+        {standalone && <Button variant='contained' onClick={() => this.setShowMethodologyDialog(true)}>
+          Metode og datakilder <AssessmentIcon />
+        </Button>}
       </React.Fragment>}
       {standalone && <Credits />}
       <MethodologyDialog open={showMethodologyDialog} onClose={() => this.setShowMethodologyDialog(false)} />
