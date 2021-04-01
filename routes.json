@@ -9,5 +9,8 @@
         "404": {
             "rewrite": "/"
         }
+    },
+    "navigationFallback": {
+        "rewrite": "/index.html"
     }
 }
