@@ -1,15 +1,4 @@
 {
-    "routes": [
-        {
-            "route": "/*",
-            "redirect": "/"
-        }
-    ],
-    "responseOverrides": {
-        "404": {
-            "rewrite": "/"
-        }
-    },
     "navigationFallback": {
         "rewrite": "/index.html"
     }
