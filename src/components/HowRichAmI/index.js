@@ -384,25 +384,25 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
     return (
       <Grid container spacing={4} justify='center' className={classes.root}>
         {income >= 29500 && (
-          <div>
-            <Grid item xs={12}>
-              <Typography className={classes.mainText}>
-                Hvis du hadde donert {donationPercentage}% av inntekten din ...
+          <Grid item xs={12}>
+            <Typography className={classes.mainText}>
+              Hvis du hadde donert {donationPercentage}% av inntekten din ...
               </Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <AirbnbSlider
-                value={donationPercentage}
-                getAriaValueText={formatPercentage}
-                step={1}
-                min={1}
-                max={MAX_DONATION_SLIDER_VALUE}
-                marks={DONATION_SLIDER_MARKS}
-                onChange={onDonationPercentageChange}
-                ThumbComponent={AirbnbThumbComponent}
-              />
-            </Grid>
-          </div>
+          </Grid>
+        )}
+        {income >= 29500 && (
+          <Grid item xs={12}>
+            <AirbnbSlider
+              value={donationPercentage}
+              getAriaValueText={formatPercentage}
+              step={1}
+              min={1}
+              max={MAX_DONATION_SLIDER_VALUE}
+              marks={DONATION_SLIDER_MARKS}
+              onChange={onDonationPercentageChange}
+              ThumbComponent={AirbnbThumbComponent}
+            />
+          </Grid>
         )}
         {incomeCentile >= 50 && (
           <Grid container spacing={4} justify='center' className={classes.root}>
