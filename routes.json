@@ -4,5 +4,10 @@
             "route": "/*",
             "redirect": "/"
         }
-    ]
+    ],
+    "responseOverrides": {
+        "404": {
+            "rewrite": "/"
+        }
+    }
 }
