@@ -738,7 +738,7 @@ const standaloneStyles = theme => ({
   menu: {}
 })
 
-export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
+export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='gieffektivt' canonical='/how-rich-am-i'>
   <Container fixed className={classes.root}>
     <AppBar position='fixed'>
 
