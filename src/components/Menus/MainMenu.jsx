@@ -24,11 +24,19 @@ const contentTypes = {
 
 const getContentType = sys => contentTypes[sys.contentType.sys.id]
 
-const getPath = ({ slug, parent }) => {
-  if (parent) {
-    return `${getPath(parent.fields)}/${slug}`
+const getPath = (sys, { slug, parent, linkURL }) => {
+  const contentType = getContentType(sys)
+  switch (contentType) {
+    case 'link':
+      return linkURL
+    case 'page':
+      if (parent) {
+        return `${getPath(sys, parent.fields)}/${slug}`
+      }
+      return `/${slug}`
+    default:
+      throw new Error(`Invalid content type ${contentType}`)
   }
-  return `/${slug}`
 }
 
 const getAbsolutePath = (...args) => getAbsoluteUrl(getPath(...args))
@@ -64,7 +72,7 @@ const DropdownMenu = ({ title, childItems }) => {
             >
               {childItems
                 .filter(({ fields }) => fields)
-                .map(({ sys, fields }) => <MenuItem component={Button} key={sys.id} href={getAbsolutePath(fields)}>
+                .map(({ sys, fields }) => <MenuItem component={Button} key={sys.id} href={getAbsolutePath(sys, fields)}>
                   {fields.shortTitle || fields.title}
                 </MenuItem>
                 )
@@ -90,7 +98,7 @@ const getMenuItem = ({ sys, fields }) => {
         style={{ textTransform: 'none' }}
         color='inherit'
         key={sys.id}
-        href={getAbsolutePath(fields)}
+        href={getAbsolutePath(sys, fields)}
         rel='noopener noreferrer'
       >{fields.shortTitle || fields.title}</Button>
     case 'link':
