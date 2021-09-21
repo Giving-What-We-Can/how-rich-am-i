@@ -276,7 +276,7 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
             {household.children > 0 && <span>
               {' '}og {household.children} barn{household.children > 1 ? '' : ''}
             </span>}
-          )
+            )
           </Typography>
         </Grid>
         <Grid item sm={6}>
@@ -318,7 +318,7 @@ export const getDonationValue = (income, donationPercentage) => BigNumber(income
 
 const AirbnbSlider = withStyles({
   root: {
-    color: '#fb8f29',
+    color: '#8D5400',
     height: 30,
     paddingTop: 0
   },
@@ -326,7 +326,7 @@ const AirbnbSlider = withStyles({
     height: 40,
     width: 40,
     backgroundColor: '#fff',
-    border: '1px solid currentColor',
+    border: '1px solid #fb8f29',
     marginTop: -10,
     marginLeft: -20,
     boxShadow: '#ebebeb 0 2px 2px',
@@ -337,7 +337,7 @@ const AirbnbSlider = withStyles({
       // display: inline-block !important;
       height: 15,
       width: 3,
-      backgroundColor: 'currentColor',
+      backgroundColor: '#fb8f29',
       marginLeft: 1,
       marginRight: 1
     }
@@ -347,7 +347,7 @@ const AirbnbSlider = withStyles({
     height: 20
   },
   rail: {
-    color: '#fb8f29',
+    color: '#8A8A8A',
     opacity: 0.5,
     height: 20
   },
@@ -387,7 +387,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
           <Grid item xs={12}>
             <Typography className={classes.mainText}>
               Hvis du hadde donert {donationPercentage}% av inntekten din ...
-              </Typography>
+            </Typography>
           </Grid>
         )}
         {income >= 29500 && (
@@ -412,9 +412,9 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
                 <p style={{ margin: '0px', wordBreak: 'keep-all', display: 'inline-block' }}>{formatCurrency(donationIncome)} kr,</p>
                 {' '}
                 <br />
-                  i tillegg {' '}
+                i tillegg {' '}
                 {formatCurrency(donationAmount)} kr
-                  i donasjoner …
+                i donasjoner …
               </Typography>
             </Grid>
 
@@ -459,7 +459,8 @@ const donationComparisonStyles = theme => ({
     }
   },
   comparisonText: {
-    fontSize: '1.25rem'
+    fontSize: '1.25rem',
+    color: '#000'
   },
   svgIcon: {
     width: '100%',
@@ -520,7 +521,7 @@ const donationComparisonsStyles = theme => ({
 
 const DonationComparisons = withStyles(donationComparisonsStyles)(({ value, classes }) => <Grid container spacing={GRID_SPACING} justify='center'>
   <Grid item xs={12}>
-    <Typography className={classes.mainText} style={{ marginTop: '50px' }}>… og hvert år kunne donasjonene dine ført til enten…</Typography>
+    <Typography className={classes.mainText} style={{ marginTop: '50px', color: '#000' }}>… og hvert år kunne donasjonene dine ført til enten…</Typography>
   </Grid>
   {COMPARISONS.map(Comparison => <Grid item xs={12} md={4} key={Comparison.id}>
     <DonationComparison value={value} comparison={Comparison} />
@@ -614,7 +615,7 @@ const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid conta
         <Typography paragraph>Denne kalkulatoren er utviklet av <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>
           Giving What We Can</a>, en global organisasjon hvor medlemmene donerer minst 10% av sin årlige lønn til effektive organisasjoner. Følg{' '}
           <a href='https://www.givingwhatwecan.org' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>denne linken</a>{' '}
-        for å lese mer og bli medlem, og bli gjerne med i Facebook-gruppen <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>!</Typography>
+          for å lese mer og bli medlem, og bli gjerne med i Facebook-gruppen <a href='https://www.facebook.com/groups/GWWCNorge' target="_blank" rel="noopener noreferrer" style={{ color: '#fb8f29' }}>for norske medlemmer her</a>!</Typography>
       </Grid>
     </Grid>
   </Grid>
@@ -625,11 +626,10 @@ const styles = theme => ({
     textAlign: 'center',
     '& .ct-chart-donut, .ct-chart-pie': {
       '& .ct-label': {
-        fill: '#FFF',
+        fill: '#000',
         color: '#FFF',
         fontSize: '1rem',
         fontWeight: 700,
-        stroke: theme.palette.primary.main,
         strokeWidth: 2,
         paintOrder: 'stroke',
         strokeLinejoin: 'round',
