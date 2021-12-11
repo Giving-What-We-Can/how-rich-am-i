@@ -528,26 +528,46 @@ const callToActionStyles = theme => ({
   }
 })
 
-const CallToAction = withStyles(callToActionStyles)(({ classes }) => <Grid container spacing={GRID_SPACING} justify='center'>
-  <Grid item xs={8}>
-    <Grid container spacing={GRID_SPACING}>
-      <Grid item xs={12}>
-        <div className={classes.logoBackground}>
-          <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Typography paragraph>We{"'"}re a global community of people pledging to donate more, and donate more effectively.</Typography>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Button href='https://www.givingwhatwecan.org' color='secondary' variant='contained' fullWidth>Learn more</Button>
-      </Grid>
-      <Grid item xs={12} sm={6}>
-        <Button href='https://www.givingwhatwecan.org/pledge' color='primary' variant='contained' fullWidth>Take the Pledge</Button>
+const CallToAction = withStyles(callToActionStyles)(({ classes }) => (
+  <Grid container spacing={GRID_SPACING} justify="center">
+    <Grid item xs={8}>
+      <Grid container spacing={GRID_SPACING}>
+        <Grid item xs={12}>
+          <img
+            src="https://d33wubrfki0l68.cloudfront.net/39338ba45f09702b3455361490262a6d873a66eb/fa985/images/logos/gwwc-logo-transparent-nav-2021.png"
+            alt="GWWC logo"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography paragraph>
+            We{"'"}re a global community of people pledging to donate more, and
+            donate more effectively.
+          </Typography>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button
+            href="https://www.givingwhatwecan.org"
+            color="secondary"
+            variant="contained"
+            fullWidth
+          >
+            Learn more
+          </Button>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Button
+            href="https://www.givingwhatwecan.org/pledge"
+            color="primary"
+            variant="contained"
+            fullWidth
+          >
+            Take the Pledge
+          </Button>
+        </Grid>
       </Grid>
     </Grid>
   </Grid>
-</Grid>)
+))
 
 const styles = theme => ({
   container: {
@@ -723,38 +743,50 @@ const standaloneStyles = theme => ({
   content: {
     marginTop: theme.spacing() * 12
   },
+  logo: {
+    maxHeight: 40
+  },
   logoBackground: {
-    marginRight: theme.spacing() * 2
+    marginRight: theme.spacing() * 5
   },
   menuTitle: {
-    flexGrow: 1
+    flexGrow: 1,
+    fontWeight: 700
   },
   menuWrapper: {
   },
   menu: {}
 })
 
-export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => <PageWrapper title='How Rich Am I?' canonical='/how-rich-am-i'>
-  <Container fixed className={classes.root}>
-    <AppBar position='fixed'>
-      <Container fixed>
-        <Toolbar disableGutters>
-          <a href='https://givingwhatwecan.org'>
-            <div className={classes.logoBackground}>
-              <img src='https://d33wubrfki0l68.cloudfront.net/18388e7f00903004ecbc40f3599d4989ca66fce3/f0c79/images/logos/gwwc-logo-transparent-nav.png' alt='GWWC logo' />
-            </div>
-          </a>
-          <Typography variant='h6' className={classes.menuTitle}>How Rich Am I?</Typography>
-          <Hidden smDown>
-            <div className={classes.menuWrapper}>
-              <MainMenu className={classes.menu} />
-            </div>
-          </Hidden>
-        </Toolbar>
-      </Container>
-    </AppBar>
-    <div className={classes.content}>
-      <HowRichAmI standalone />
-    </div>
-  </Container>
-</PageWrapper>)
+export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) => (
+  <PageWrapper title="How Rich Am I?" canonical="/how-rich-am-i">
+    <Container fixed className={classes.root}>
+      <AppBar position="fixed" color='inherit'>
+        <Container fixed>
+          <Toolbar disableGutters>
+            <a href="https://givingwhatwecan.org">
+              <div className={classes.logoBackground}>
+                <img
+                  className={classes.logo}
+                  src="https://d33wubrfki0l68.cloudfront.net/39338ba45f09702b3455361490262a6d873a66eb/fa985/images/logos/gwwc-logo-transparent-nav-2021.png"
+                  alt="GWWC logo"
+                />
+              </div>
+            </a>
+            <Typography variant="h6" className={classes.menuTitle}>
+              How Rich Am I?
+            </Typography>
+            <Hidden smDown>
+              <div className={classes.menuWrapper}>
+                <MainMenu className={classes.menu} />
+              </div>
+            </Hidden>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <div className={classes.content}>
+        <HowRichAmI standalone />
+      </div>
+    </Container>
+  </PageWrapper>
+));
