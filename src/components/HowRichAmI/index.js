@@ -41,7 +41,6 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MainMenu from 'components/Menus/MainMenu'
 
-const GRAPH_COLOR = '#E36A45'
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
 
@@ -60,7 +59,7 @@ const CenteredInput = withStyles({
 
 const ThemedSlider = withStyles(theme => ({
   root: {
-    color: GRAPH_COLOR
+    color: theme.palette.orange[300]
   }
 }))(Slider)
 
@@ -230,17 +229,17 @@ const calculationStyles = theme => ({
     }
   },
   mainText: {
-    color: theme.palette.text.main,
+    color: theme.palette.text.default,
     fontSize: '2rem',
     fontWeight: 700
   },
   subMainText: {
-    color: theme.palette.text.main,
+    color: theme.palette.text.default,
     fontSize: '1rem'
 
   },
   chartText: {
-    color: theme.palette.text.main,
+    color: theme.palette.text.default,
     fontSize: '1.25rem',
     fontWeight: 700
   }
@@ -391,13 +390,14 @@ const donationComparisonStyles = theme => ({
   },
   comparisonText: {
     fontSize: '1.25rem',
-    color: theme.palette.text.main
+    color: theme.palette.text.default
   },
   svgIcon: {
     width: '100%',
     maxWidth: 150,
     height: '100%',
-    maxHeight: 150
+    maxHeight: 150,
+    fill: theme.palette.orange[300]
   }
 })
 const DONATION_COMPARISON_PLACEHOLDER = '%%'
@@ -411,7 +411,7 @@ const DonationComparison = withStyles(donationComparisonStyles)(({ value, compar
   return <Grid spacing={GRID_SPACING} container className={classes.root} alignItems='center'>
     <Grid item xs={6} className={classes.iconContainer}>
       <SvgIcon
-        htmlColor={GRAPH_COLOR}
+        htmlColor={classes.fill}
         viewBox={comparison.icon.viewBox || '0 0 1000 1000'}
         width="100%" height="100%"
         preserveAspectRatio="xMidYMid meet"
@@ -444,7 +444,7 @@ DonationComparison.propTypes = {
 
 const donationComparisonsStyles = theme => ({
   mainText: {
-    color: theme.palette.text.main,
+    color: theme.palette.text.default,
     fontSize: '2rem',
     fontWeight: 700
   }
@@ -468,7 +468,7 @@ const headingStyles = theme => ({
     margin: theme.spacing(0, 0, GRID_SPACING)
   },
   title: {
-    color: theme.palette.text.main
+    color: theme.palette.text.default
   }
 })
 
@@ -496,7 +496,7 @@ const methodologyDialogStyles = theme => ({
     padding: '12px 16px 20px'
   },
   footerText: {
-    color: theme.palette.text.main,
+    color: theme.palette.text.default,
     fontSize: '14px',
     fontWeight: 600,
     width: 'fit-content',
@@ -566,7 +566,7 @@ const styles = theme => ({
         color: '#FFF',
         fontSize: '1rem',
         fontWeight: 700,
-        stroke: GRAPH_COLOR,
+        stroke: theme.palette.orange[300],
         strokeWidth: 2,
         paintOrder: 'stroke',
         strokeLinejoin: 'round',
@@ -578,24 +578,24 @@ const styles = theme => ({
     },
     '& .ct-series-a': {
       '& .ct-slice-donut, .ct-slice-bar': {
-        stroke: GRAPH_COLOR
+        stroke: theme.palette.orange[100]
       },
       '& .ct-slice-pie': {
-        fill: theme.palette.secondary.main
+        fill: theme.palette.orange[100]
       },
       '& .ct-bar': {
-        stroke: GRAPH_COLOR
+        stroke: theme.palette.orange[300]
       }
     },
     '& .ct-series-b': {
       '& .ct-slice-donut, .ct-slice-bar': {
-        stroke: GRAPH_COLOR
+        stroke: theme.palette.orange[300]
       },
       '& .ct-slice-pie': {
-        fill: GRAPH_COLOR
+        fill: theme.palette.orange[300]
       },
       '& .ct-bar': {
-        stroke: GRAPH_COLOR
+        stroke: theme.palette.orange[300]
       }
     }
   }

@@ -30,8 +30,29 @@ const theme = createMuiTheme({
       default: '#FFF'
     },
     text: {
-      main: textColor
-    }
+      default: '#222222'
+    },
+    yellow: {
+      100: '#FAE2D5',
+      400: '#E86F2B',
+    },
+    orange: {
+      100: '#F5D9D0',
+      300: '#E36A45',
+      400: '#CC4115',
+    },
+    red: {
+      100: '#F1D4D6',
+      400: '#BA2934',
+    },
+    pink: {
+      100: '#F8D7DC',
+      400: '#DA3552',
+    },
+    purple: {
+      100: '#F1D1DE',
+      400: '#BA175B',
+    },
   },
   typography: {
     fontFamily: ['Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
