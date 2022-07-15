@@ -499,8 +499,8 @@ const methodologyDialogStyles = theme => ({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    padding: theme.spacing(2),
-    paddingTop: '12px',
+    margin: theme.spacing(2),
+    marginTop: '12px',
   },
   footerText: {
     color: theme.palette.text.default,
