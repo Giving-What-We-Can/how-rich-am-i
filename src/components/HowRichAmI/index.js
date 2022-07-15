@@ -81,6 +81,9 @@ export const greaterThanZero = input => typeof input === 'number' && input > 0
 const controlsStyles = theme => ({
   root: {
     margin: theme.spacing(GRID_SPACING, 0)
+  },
+  grid: {
+    margin: theme.spacing(GRID_SPACING, 0, GRID_SPACING / 2)
   }
 })
 
@@ -109,7 +112,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
   const isValid = validateSettings({ income, countryCode, household })
 
   return <form className={classes.root}>
-    <Grid container spacing={GRID_SPACING} style={{ marginTop: '14px' }}>
+    <Grid container spacing={GRID_SPACING} className={classes.grid}>
 
       <Grid item xs={12} sm={6} md={3}>
         <FormControl fullWidth>
@@ -160,7 +163,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
     </Grid>
 
     <Grid container justify='center' spacing={GRID_SPACING}>
-      <Grid item xs={12} sm={8} md={6} style={{ marginTop: '16px' }}>
+      <Grid item xs={12} sm={8} md={6}>
         <Button size='large' color='primary' variant='contained' disabled={!isValid} onClick={onCalculate}>Calculate</Button>
       </Grid>
     </Grid>
@@ -447,6 +450,9 @@ const donationComparisonsStyles = theme => ({
     color: theme.palette.text.default,
     fontSize: '2rem',
     fontWeight: 700
+  },
+  grid: {
+    margin: theme.spacing(GRID_SPACING / 3, 0, GRID_SPACING - 1)
   }
 })
 
@@ -493,11 +499,12 @@ const methodologyDialogStyles = theme => ({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    padding: '12px 16px 20px'
+    padding: theme.spacing(2),
+    paddingTop: '12px',
   },
   footerText: {
     color: theme.palette.text.default,
-    fontSize: '14px',
+    fontSize: '0.9rem',
     fontWeight: 600,
     width: 'fit-content',
     '&:hover': {
@@ -534,10 +541,10 @@ const MethodologyFooter = withStyles(methodologyDialogStyles)(({ onClick, classe
 ))
 
 const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => (
-  <Grid container spacing={GRID_SPACING} justify="center" style={{ marginBottom: '24px'}}>
+  <Grid container spacing={GRID_SPACING} justify="center" className={classes.grid}>
     <Grid item xs={8}>
       <Grid container spacing={GRID_SPACING}>
-        <Grid item xs={12} style={{ marginTop: '12px' }}>
+        <Grid item xs={12}>
           <Typography className={classes.mainText}>
             ... if you gave to high-impact charities
           </Typography>
