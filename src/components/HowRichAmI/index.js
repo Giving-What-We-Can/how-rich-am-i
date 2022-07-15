@@ -566,7 +566,7 @@ const styles = theme => ({
         color: '#FFF',
         fontSize: '1rem',
         fontWeight: 700,
-        stroke: theme.palette.primary.main,
+        stroke: GRAPH_COLOR,
         strokeWidth: 2,
         paintOrder: 'stroke',
         strokeLinejoin: 'round',
@@ -578,24 +578,24 @@ const styles = theme => ({
     },
     '& .ct-series-a': {
       '& .ct-slice-donut, .ct-slice-bar': {
-        stroke: theme.palette.secondary.main
+        stroke: GRAPH_COLOR
       },
       '& .ct-slice-pie': {
         fill: theme.palette.secondary.main
       },
       '& .ct-bar': {
-        stroke: theme.palette.primary.main
+        stroke: GRAPH_COLOR
       }
     },
     '& .ct-series-b': {
       '& .ct-slice-donut, .ct-slice-bar': {
-        stroke: theme.palette.primary.main
+        stroke: GRAPH_COLOR
       },
       '& .ct-slice-pie': {
-        fill: theme.palette.primary.main
+        fill: GRAPH_COLOR
       },
       '& .ct-bar': {
-        stroke: theme.palette.primary.main
+        stroke: GRAPH_COLOR
       }
     }
   }
