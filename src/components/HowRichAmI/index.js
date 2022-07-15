@@ -500,7 +500,7 @@ const methodologyDialogStyles = theme => ({
     display: 'flex',
     justifyContent: 'flex-end',
     margin: theme.spacing(2),
-    marginTop: '12px',
+    marginTop: theme.spacing(1.5)
   },
   footerText: {
     color: theme.palette.text.default,
