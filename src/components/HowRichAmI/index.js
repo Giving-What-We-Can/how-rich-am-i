@@ -15,8 +15,6 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
-import CheckCircleIcon from '@material-ui/icons/CheckCircle'
-import AssessmentIcon from '@material-ui/icons/Assessment'
 import SvgIcon from '@material-ui/core/SvgIcon'
 import Slider from '@material-ui/core/Slider'
 import Hidden from '@material-ui/core/Hidden'
@@ -105,7 +103,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
   const isValid = validateSettings({ income, countryCode, household })
 
   return <form className={classes.root}>
-    <Grid container spacing={GRID_SPACING}>
+    <Grid container spacing={GRID_SPACING} style={{ marginTop: '14px' }}>
 
       <Grid item xs={12} sm={6} md={3}>
         <FormControl fullWidth>
@@ -156,8 +154,8 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
     </Grid>
 
     <Grid container justify='center' spacing={GRID_SPACING}>
-      <Grid item xs={12} sm={8} md={6}>
-        <Button fullWidth color='primary' variant='contained' disabled={!isValid} onClick={onCalculate}>Calculate <CheckCircleIcon /></Button>
+      <Grid item xs={12} sm={8} md={6} style={{ marginTop: '16px' }}>
+        <Button size='large' color='primary' variant='contained' disabled={!isValid} onClick={onCalculate}>Calculate</Button>
       </Grid>
     </Grid>
   </form>
@@ -225,17 +223,17 @@ const calculationStyles = theme => ({
     }
   },
   mainText: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.main,
     fontSize: '2rem',
     fontWeight: 700
   },
   subMainText: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.main,
     fontSize: '1rem'
 
   },
   chartText: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.main,
     fontSize: '1.25rem',
     fontWeight: 700
   }
@@ -385,7 +383,8 @@ const donationComparisonStyles = theme => ({
     }
   },
   comparisonText: {
-    fontSize: '1.25rem'
+    fontSize: '1.25rem',
+    color: theme.palette.text.main
   },
   svgIcon: {
     width: '100%',
@@ -415,7 +414,7 @@ const DonationComparison = withStyles(donationComparisonStyles)(({ value, compar
       </SvgIcon>
     </Grid>
     <Grid item xs={6} className={classes.textContainer}>
-      <Typography color='primary' className={classes.comparisonText}>
+      <Typography className={classes.comparisonText}>
         {elements}
       </Typography>
     </Grid>
@@ -438,7 +437,7 @@ DonationComparison.propTypes = {
 
 const donationComparisonsStyles = theme => ({
   mainText: {
-    color: theme.palette.primary.main,
+    color: theme.palette.text.main,
     fontSize: '2rem',
     fontWeight: 700
   }
@@ -460,11 +459,14 @@ DonationComparisons.propTypes = {
 const headingStyles = theme => ({
   root: {
     margin: theme.spacing(0, 0, GRID_SPACING)
+  },
+  title: {
+    color: theme.palette.text.main
   }
 })
 
 const Heading = withStyles(headingStyles)(({ classes }) => <header className={classes.root}>
-  <Typography variant='h2'>How Rich Am{'\u00A0'}I?</Typography>
+  <Typography variant='h2' className={classes.title}>How Rich Am{'\u00A0'}I?</Typography>
   <Typography variant='subtitle1'>Find out how rich you are compared to the rest of the world – are you on the global rich list?</Typography>
 </header>)
 
@@ -480,6 +482,21 @@ const methodologyDialogStyles = theme => ({
     right: theme.spacing(GRID_SPACING / 2),
     top: theme.spacing(GRID_SPACING / 2),
     color: theme.palette.grey[500]
+  },
+  footer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: '12px 16px 20px'
+  },
+  footerText: {
+    color: theme.palette.text.main,
+    fontSize: '14px',
+    fontWeight: 600,
+    width: 'fit-content',
+    '&:hover': {
+      cursor: 'pointer',
+      textDecoration: 'underline'
+    }
   }
 })
 
@@ -501,67 +518,36 @@ MethodologyDialog.propTypes = {
   onClose: PropTypes.func.isRequired
 }
 
-const creditsStyles = theme => ({
-  root: {
-    margin: theme.spacing() * 2
-  }
-})
-const Credits = withStyles(creditsStyles)(({ classes }) => <div className={classes.root}>
-  <Typography>
-    The How Rich Am I Calculator is a project of <a href='https://www.givingwhatwecan.org'>Giving What We Can</a>
-  </Typography>
-</div>)
+const MethodologyFooter = withStyles(methodologyDialogStyles)(({ onClick, classes }) => (
+  <div className={classes.footer}>
+    <Typography className={classes.footerText} onClick={onClick}>
+      Methodology and Data Sources
+    </Typography>
+  </div>
+))
 
-Credits.propTypes = {
-  classes: PropTypes.object
-}
-
-const callToActionStyles = theme => ({
-  logoBackground: {
-    height: 130,
-    width: 130,
-    backgroundColor: theme.palette.primary.main,
-    margin: '0 auto',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
-
-const CallToAction = withStyles(callToActionStyles)(({ classes }) => (
-  <Grid container spacing={GRID_SPACING} justify="center">
+const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => (
+  <Grid container spacing={GRID_SPACING} justify="center" style={{ marginBottom: '24px'}}>
     <Grid item xs={8}>
       <Grid container spacing={GRID_SPACING}>
-        <Grid item xs={12}>
-          <img
-            src="https://d33wubrfki0l68.cloudfront.net/39338ba45f09702b3455361490262a6d873a66eb/fa985/images/logos/gwwc-logo-transparent-nav-2021.png"
-            alt="GWWC logo"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Typography paragraph>
-            We{"'"}re a global community of people pledging to donate more, and
-            donate more effectively.
+        <Grid item xs={12} style={{ marginTop: '12px' }}>
+          <Typography className={classes.mainText}>
+            ... if you gave to high-impact charities
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12}>
           <Button
-            href="https://www.givingwhatwecan.org"
-            color="secondary"
+            href="https://www.givingwhatwecan.org/best-charities-to-donate-to-2022"
+            color="inherit"
             variant="contained"
-            fullWidth
+            size="large"
+            style={{ 
+              backgroundColor: "#E86F2B", 
+              color: "white",
+              fontWeight: 500
+            }}
           >
-            Learn more
-          </Button>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Button
-            href="https://www.givingwhatwecan.org/pledge"
-            color="primary"
-            variant="contained"
-            fullWidth
-          >
-            Take the Pledge
+            Explore top charities
           </Button>
         </Grid>
       </Grid>
@@ -702,20 +688,15 @@ class _HowRichAmI extends React.PureComponent {
     const { classes, standalone } = this.props
     return <div className={classes.container}>
       <Heading />
-      <SpacedDivider variant='middle' />
-      <Controls {...this.state} onChange={this.handleControlsChange} onCalculate={this.handleCalculate}/>
+      <Controls {...this.state} onChange={this.handleControlsChange} onCalculate={this.handleCalculate} />
       {showCalculations && <React.Fragment>
         <SpacedDivider variant='middle' />
         <Calculation {...this.state} />
         <DonationCalculation {...this.state} onDonationPercentageChange={this.handleDonationPercentageChange} />
-        <SpacedDivider variant='middle' />
         <CallToAction />
-        <SpacedDivider variant='middle' />
-        {standalone && <Button variant='contained' onClick={() => this.setShowMethodologyDialog(true)}>
-          Methodology and Data Sources <AssessmentIcon />
-        </Button>}
+        <Divider variant='middle' />
+        {standalone && <MethodologyFooter onClick={() => this.setShowMethodologyDialog(true)} />}
       </React.Fragment>}
-      {standalone && <Credits />}
       <MethodologyDialog open={showMethodologyDialog} onClose={() => this.setShowMethodologyDialog(false)} />
     </div>
   }
@@ -749,6 +730,10 @@ const standaloneStyles = theme => ({
   logoBackground: {
     marginRight: theme.spacing() * 5
   },
+  menuToolbar: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  },
   menuTitle: {
     flexGrow: 1,
     fontWeight: 700
@@ -763,7 +748,7 @@ export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) =
     <Container fixed className={classes.root}>
       <AppBar position="fixed" color='inherit'>
         <Container fixed>
-          <Toolbar disableGutters>
+          <Toolbar disableGutters className={classes.menuToolbar}>
             <a href="https://givingwhatwecan.org">
               <div className={classes.logoBackground}>
                 <img
@@ -773,9 +758,6 @@ export const HowRichAmIStandalone = withStyles(standaloneStyles)(({ classes }) =
                 />
               </div>
             </a>
-            <Typography variant="h6" className={classes.menuTitle}>
-              How Rich Am I?
-            </Typography>
             <Hidden smDown>
               <div className={classes.menuWrapper}>
                 <MainMenu className={classes.menu} />
