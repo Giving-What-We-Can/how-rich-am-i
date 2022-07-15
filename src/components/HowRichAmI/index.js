@@ -41,6 +41,7 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MainMenu from 'components/Menus/MainMenu'
 
+const GRAPH_COLOR = '#E36A45'
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
 
@@ -56,6 +57,12 @@ const CenteredInput = withStyles({
     textAlign: 'center'
   }
 })(Input)
+
+const ThemedSlider = withStyles(theme => ({
+  root: {
+    color: GRAPH_COLOR
+  }
+}))(Slider)
 
 export const getCountryName = countryCode => {
   const country = COUNTRIES.filter(c => c.code === countryCode)[0]
@@ -333,7 +340,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
         </Typography>
       </Grid>
       <Grid item xs={12}>
-        <Slider
+        <ThemedSlider
           value={donationPercentage}
           getAriaValueText={formatPercentage}
           step={donationPercentage >= 20 ? 5 : 1}
@@ -404,7 +411,7 @@ const DonationComparison = withStyles(donationComparisonStyles)(({ value, compar
   return <Grid spacing={GRID_SPACING} container className={classes.root} alignItems='center'>
     <Grid item xs={6} className={classes.iconContainer}>
       <SvgIcon
-        color='primary'
+        htmlColor={GRAPH_COLOR}
         viewBox={comparison.icon.viewBox || '0 0 1000 1000'}
         width="100%" height="100%"
         preserveAspectRatio="xMidYMid meet"
@@ -538,14 +545,9 @@ const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => (
         <Grid item xs={12}>
           <Button
             href="https://www.givingwhatwecan.org/best-charities-to-donate-to-2022"
-            color="inherit"
+            color="primary"
             variant="contained"
             size="large"
-            style={{ 
-              backgroundColor: "#E86F2B", 
-              color: "white",
-              fontWeight: 500
-            }}
           >
             Explore top charities
           </Button>

@@ -15,7 +15,6 @@ const {
 
 const primaryColor = '#BA175B'
 const secondaryColor = '#F1D1DE'
-//const secondaryColor = '#E86F2B'
 const textColor = '#222222'
 const sliderHeight = 12
 
