@@ -44,13 +44,6 @@ import MainMenu from 'components/Menus/MainMenu'
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
 
-const SpacedDivider = withStyles(theme => ({
-  root: {
-    marginTop: theme.spacing(GRID_SPACING),
-    marginBottom: theme.spacing(GRID_SPACING)
-  }
-}))(Divider)
-
 const CenteredInput = withStyles({
   input: {
     textAlign: 'center'
@@ -81,9 +74,6 @@ export const greaterThanZero = input => typeof input === 'number' && input > 0
 const controlsStyles = theme => ({
   root: {
     margin: theme.spacing(GRID_SPACING, 0)
-  },
-  grid: {
-    margin: theme.spacing(GRID_SPACING, 0, GRID_SPACING / 2)
   }
 })
 
@@ -112,7 +102,7 @@ const Controls = withStyles(controlsStyles)(({ income, countryCode, household, o
   const isValid = validateSettings({ income, countryCode, household })
 
   return <form className={classes.root}>
-    <Grid container spacing={GRID_SPACING} className={classes.grid}>
+    <Grid container spacing={GRID_SPACING}>
 
       <Grid item xs={12} sm={6} md={3}>
         <FormControl fullWidth>
@@ -487,8 +477,7 @@ const Methodology = () => <Page showTitle={false} slug='how-rich-am-i-methodolog
 
 const methodologyDialogStyles = theme => ({
   root: {
-    margin: 0,
-    padding: theme.spacing(GRID_SPACING)
+    margin: 0
   },
   closeButton: {
     position: 'absolute',
@@ -499,8 +488,8 @@ const methodologyDialogStyles = theme => ({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    margin: theme.spacing(2),
-    marginTop: theme.spacing(1.5)
+    margin: `${theme.spacing(1)}px 0 ${theme.spacing(2)}px`,
+    padding: `0 ${theme.spacing(2)}px`,
   },
   footerText: {
     color: theme.palette.text.default,
@@ -517,7 +506,7 @@ const methodologyDialogStyles = theme => ({
 const MethodologyDialog = withStyles(methodologyDialogStyles)(({ open, onClose, classes }) =>
   <Dialog onClose={onClose} open={open} aria-labelledby='methodology-title' className={classes.root}>
     <DialogTitle disableTypography >
-      <Typography id='methodology-title' variant='h3'>Methodology</Typography>
+      <Typography id='methodology-title' variant='h4'>Methodology</Typography>
       <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
         <CloseIcon />
       </IconButton>
@@ -699,7 +688,6 @@ class _HowRichAmI extends React.PureComponent {
       <Heading />
       <Controls {...this.state} onChange={this.handleControlsChange} onCalculate={this.handleCalculate} />
       {showCalculations && <React.Fragment>
-        <SpacedDivider variant='middle' />
         <Calculation {...this.state} />
         <DonationCalculation {...this.state} onDonationPercentageChange={this.handleDonationPercentageChange} />
         <CallToAction />
