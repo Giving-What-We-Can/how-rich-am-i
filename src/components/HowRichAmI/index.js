@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
@@ -530,34 +530,38 @@ const MethodologyFooter = withStyles(methodologyDialogStyles)(({ onClick, classe
   </div>
 ))
 
-const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analytics, classes }) => (
-  <Grid container spacing={GRID_SPACING} justify="center" className={classes.grid}>
-    <Grid item xs={8}>
-      <Grid container spacing={GRID_SPACING}>
-        <Grid item xs={12}>
-          <Typography className={classes.mainText}>
-            ... if you gave to high-impact charities
-          </Typography>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            href="https://www.givingwhatwecan.org/best-charities-to-donate-to-2022"
-            color="primary"
-            variant="contained"
-            size="large"
-            onClick={() => {
-              if (analytics) {
-                analytics.track("HRAI Explore Top Charities Clicked")
-              }
-            }}
-          >
-            Explore top charities
-          </Button>
+const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analytics, classes }) => {
+  const handleClick = useCallback(() => {
+    if (analytics) {
+      analytics.track("HRAI Explore Top Charities Clicked")
+    }
+  }, [analytics]);
+
+  return (
+    <Grid container spacing={GRID_SPACING} justify="center" className={classes.grid}>
+      <Grid item xs={8}>
+        <Grid container spacing={GRID_SPACING}>
+          <Grid item xs={12}>
+            <Typography className={classes.mainText}>
+              ... if you gave to high-impact charities
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              href="https://www.givingwhatwecan.org/best-charities-to-donate-to-2022"
+              color="primary"
+              variant="contained"
+              size="large"
+              onClick={handleClick}
+            >
+              Explore top charities
+            </Button>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
-  </Grid>
-)))
+  );
+}))
 
 const styles = theme => ({
   container: {
