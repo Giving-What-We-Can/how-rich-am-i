@@ -30,6 +30,7 @@ import { withStyles } from '@material-ui/core/styles'
 import PageWrapper from 'components/Page'
 
 import { Page } from 'components/Contentful'
+import { withSegment } from 'components/Segment'
 
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -442,7 +443,7 @@ const donationComparisonsStyles = theme => ({
     fontWeight: 700
   },
   grid: {
-    margin: theme.spacing(GRID_SPACING / 3, 0, GRID_SPACING - 1)
+    margin: theme.spacing(GRID_SPACING / 3, 0, GRID_SPACING)
   }
 })
 
@@ -488,13 +489,13 @@ const methodologyDialogStyles = theme => ({
   footer: {
     display: 'flex',
     justifyContent: 'flex-end',
-    margin: `${theme.spacing(1)}px 0 ${theme.spacing(2)}px`,
+    margin: `${theme.spacing(0.8)}px 0 ${theme.spacing(2)}px`,
     padding: `0 ${theme.spacing(2)}px`,
   },
   footerText: {
     color: theme.palette.text.default,
-    fontSize: '0.9rem',
-    fontWeight: 600,
+    fontSize: '0.8rem',
+    fontWeight: 500,
     width: 'fit-content',
     '&:hover': {
       cursor: 'pointer',
@@ -529,7 +530,18 @@ const MethodologyFooter = withStyles(methodologyDialogStyles)(({ onClick, classe
   </div>
 ))
 
-const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => (
+const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analytics, classes }) => {
+  const handleExploreCharities = () => {
+    if (analytics) {
+      const properties = {
+        category: "HRAI Calculator Page",
+        eventName: "Explore Top Charities",
+      }
+      analytics.track("User Clicked", properties)
+    }
+  };
+
+  return (
   <Grid container spacing={GRID_SPACING} justify="center" className={classes.grid}>
     <Grid item xs={8}>
       <Grid container spacing={GRID_SPACING}>
@@ -544,6 +556,7 @@ const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => (
             color="primary"
             variant="contained"
             size="large"
+            onClick={handleExploreCharities()}
           >
             Explore top charities
           </Button>
@@ -551,7 +564,8 @@ const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => (
       </Grid>
     </Grid>
   </Grid>
-))
+  );
+}))
 
 const styles = theme => ({
   container: {
