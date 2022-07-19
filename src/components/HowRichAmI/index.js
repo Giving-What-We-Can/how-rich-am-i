@@ -530,18 +530,7 @@ const MethodologyFooter = withStyles(methodologyDialogStyles)(({ onClick, classe
   </div>
 ))
 
-const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analytics, classes }) => {
-  const handleExploreCharities = () => {
-    if (analytics) {
-      const properties = {
-        category: "HRAI Calculator Page",
-        eventName: "Explore Top Charities",
-      }
-      analytics.track("User Clicked", properties)
-    }
-  };
-
-  return (
+const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analytics, classes }) => (
   <Grid container spacing={GRID_SPACING} justify="center" className={classes.grid}>
     <Grid item xs={8}>
       <Grid container spacing={GRID_SPACING}>
@@ -556,7 +545,11 @@ const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analyt
             color="primary"
             variant="contained"
             size="large"
-            onClick={handleExploreCharities()}
+            onClick={() => {
+              if (analytics) {
+                analytics.track("HRAI Explore Top Charities Clicked")
+              }
+            }}
           >
             Explore top charities
           </Button>
@@ -564,8 +557,7 @@ const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analyt
       </Grid>
     </Grid>
   </Grid>
-  );
-}))
+)))
 
 const styles = theme => ({
   container: {
@@ -697,6 +689,7 @@ class _HowRichAmI extends React.PureComponent {
 
   render = () => {
     const { showCalculations, showMethodologyDialog } = this.state
+
     const { classes, standalone } = this.props
     return <div className={classes.container}>
       <Heading />
