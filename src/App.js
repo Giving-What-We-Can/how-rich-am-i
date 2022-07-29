@@ -13,8 +13,9 @@ const {
   REACT_APP_SEGMENT_WRITE_KEY
 } = process.env
 
-const primaryColor = '#ab2b24'
-const secondaryColor = '#edede5'
+const primaryColor = '#BA175B'
+const secondaryColor = '#F1D1DE'
+const textColor = '#222222'
 const sliderHeight = 12
 
 const theme = createMuiTheme({
@@ -27,15 +28,39 @@ const theme = createMuiTheme({
     },
     background: {
       default: '#FFF'
-    }
+    },
+    text: {
+      default: '#222222'
+    },
+    yellow: {
+      100: '#FAE2D5',
+      400: '#E86F2B',
+    },
+    orange: {
+      100: '#F5D9D0',
+      300: '#E36A45',
+      400: '#CC4115',
+    },
+    red: {
+      100: '#F1D4D6',
+      400: '#BA2934',
+    },
+    pink: {
+      100: '#F8D7DC',
+      400: '#DA3552',
+    },
+    purple: {
+      100: '#F1D1DE',
+      400: '#BA175B',
+    },
   },
   typography: {
     fontFamily: ['Source Sans Pro', 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif'],
-    h1: { color: primaryColor, fontWeight: '700' },
-    h2: { color: primaryColor, fontWeight: '700' },
-    h3: { color: primaryColor, fontWeight: '700' },
-    h4: { color: primaryColor, fontWeight: '700' },
-    h5: { color: primaryColor }
+    h1: { color: textColor, fontWeight: '700' },
+    h2: { color: textColor, fontWeight: '700' },
+    h3: { color: textColor, fontWeight: '700' },
+    h4: { color: textColor, fontWeight: '700' },
+    h5: { color: textColor }
   },
   overrides: {
     MuiSlider: {
