@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@material-ui/core/Grid'
 import Container from '@material-ui/core/Container'
@@ -27,23 +27,20 @@ import { COMPARISONS, MEDIAN_INCOME } from '../../lib/calculate'
 import ChartistGraph from 'react-chartist'
 import { withStyles } from '@material-ui/core/styles'
 
-import PageWrapper from 'components/Page'
-
-import { Page } from 'components/Contentful'
-import { withSegment } from 'components/Segment'
-
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import DialogContent from '@material-ui/core/DialogContent'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-// standalone
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import MainMenu from 'components/Menus/MainMenu'
+import PageWrapper from 'components/Page'
+import { Page } from 'components/Contentful'
 
 const MAX_HOUSEHOLD_NUMBER = 10
 const GRID_SPACING = 4
+const CTA_URL = 'https://www.givingwhatwecan.org/best-charities-to-donate-to-2022'
 
 const CenteredInput = withStyles({
   input: {
@@ -530,12 +527,15 @@ const MethodologyFooter = withStyles(methodologyDialogStyles)(({ onClick, classe
   </div>
 ))
 
-const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analytics, classes }) => {
-  const handleClick = useCallback(() => {
-    if (analytics) {
-      analytics.track("HRAI Explore Top Charities Clicked")
+const CallToAction = withStyles(donationComparisonsStyles)(({ classes }) => {
+  const handleClick = async () => {
+    if (window.analytics) {
+      await window.analytics.track('HRAI Explore Top Charities Clicked', {}, {}, () => {
+        window.location.href = CTA_URL
+      })
     }
-  }, [analytics]);
+    window.location.href = CTA_URL
+  }
 
   return (
     <Grid container spacing={GRID_SPACING} justify="center" className={classes.grid}>
@@ -548,7 +548,6 @@ const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analyt
           </Grid>
           <Grid item xs={12}>
             <Button
-              href="https://www.givingwhatwecan.org/best-charities-to-donate-to-2022"
               color="primary"
               variant="contained"
               size="large"
@@ -561,7 +560,7 @@ const CallToAction = withSegment(withStyles(donationComparisonsStyles)(({ analyt
       </Grid>
     </Grid>
   );
-}))
+})
 
 const styles = theme => ({
   container: {
