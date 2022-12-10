@@ -18,7 +18,7 @@
     "lodash": "^4.17.15",
     "markdown-to-jsx": "^6.10.3",
     "mz": "^2.7.0",
-    "qs": "^6.8.0",
+    "qs": "^6.8.3",
     "react": "^16.9.0",
     "react-chartist": "^0.13.3",
     "react-contentful": "^1.4.5",
