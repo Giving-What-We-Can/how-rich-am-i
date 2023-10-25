@@ -93,7 +93,7 @@ export const calculate = ({ income, countryCode, household }) => {
   const internationalizedIncome = internationalizeIncome(income, countryCode)
   const equivalizedIncome = equivalizeIncome(internationalizedIncome, household)
   const convertedIncome = convertIncome(income, countryCode)
-  const incomeCentile = Math.min(99, interpolateIncomeCentileByAmount(equivalizedIncome))
+  const incomeCentile = Math.min(99.9, interpolateIncomeCentileByAmount(equivalizedIncome))
   const incomeTopPercentile = BigNumber(100).minus(incomeCentile).decimalPlaces(1).toNumber()
   const medianMultiple = getMedianMultiple(equivalizedIncome)
 
