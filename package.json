@@ -16,7 +16,7 @@
     "deep-filter-object": "^1.0.0",
     "linear-interpolator": "^1.0.2",
     "lodash": "^4.17.15",
-    "markdown-to-jsx": "^6.10.3",
+    "markdown-to-jsx": "^6.11.4",
     "mz": "^2.7.0",
     "qs": "^6.8.0",
     "react": "^16.9.0",
