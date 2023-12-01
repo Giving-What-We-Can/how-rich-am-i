@@ -7,17 +7,12 @@ import COMPARISONS from './data/comparisons.json'
 import BigNumber from 'bignumber.js'
 export { COMPARISONS }
 
-// data interpolation
-// const interpolateIncomeCentile = interpolate(
-//   INCOME_CENTILES.map(centile => ({ x: centile.percentage, y: centile.international_dollars }))
-// )
-
 const interpolateIncomeCentileByAmountInterpolator = interpolate(
-  INCOME_CENTILES.map(centile => ([centile.international_dollars, centile.percentage]))
+  INCOME_CENTILES.map(centile => ([centile.daily_2017_dollars * 365, centile.percentile]))
 )
 
 const interpolateIncomeAmountByCentileInterpolator = interpolate(
-  INCOME_CENTILES.map(centile => ([centile.percentage, centile.international_dollars]))
+  INCOME_CENTILES.map(centile => ([centile.percentile, centile.daily_2017_dollars * 365]))
 )
 
 export const interpolateIncomeCentileByAmount = amount => BigNumber(interpolateIncomeCentileByAmountInterpolator(amount))
@@ -42,28 +37,18 @@ export const getCurrency = countryCode => {
 }
 export const getCurrencyCode = countryCode => getCurrency(countryCode).alphaCode
 
-// calculate how to adjust for household size using OECD equivalised income
-// the weightings are for first adult, subsequent adults and children respectively:
-//   1, 0.7, 0.5
 export const householdEquivalizationFactor = ({ adults = 0, children = 0 }) =>
-  (
-    (adults === 1
-      ? BigNumber(1)
-      : BigNumber(adults).times(0.7).plus(0.3)
-    ).plus(
-      (BigNumber(children).dividedBy(2))
-    )
-  ).toNumber()
+  Number(adults) + Number(children)
 
 // PPP conversion - returns an amount in I$
 export const internationalizeIncome = (income, countryCode) => BigNumber(income)
-  .dividedBy(PPP_CONVERSION[countryCode].factor)
+  .dividedBy(PPP_CONVERSION[countryCode])
   .decimalPlaces(2)
   .toNumber()
 
 // Exchange rate currency conversion, returns an amount in USD
-export const convertIncome = (income, countryCode) => BigNumber(income)
-  .dividedBy(EXCHANGE_RATES[countryCode].rate)
+export const convertIncome = (income, currencyCode) => BigNumber(income)
+  .dividedBy(EXCHANGE_RATES[currencyCode].rate)
   .decimalPlaces(2)
   .toNumber()
 
@@ -92,7 +77,7 @@ export const getIncomeAfterDonating = (income, donationPercentage) =>
 export const calculate = ({ income, countryCode, household }) => {
   const internationalizedIncome = internationalizeIncome(income, countryCode)
   const equivalizedIncome = equivalizeIncome(internationalizedIncome, household)
-  const convertedIncome = convertIncome(income, countryCode)
+  const convertedIncome = convertIncome(income, getCurrencyCode(countryCode))
   const incomeCentile = Math.min(99.9, interpolateIncomeCentileByAmount(equivalizedIncome))
   const incomeTopPercentile = BigNumber(100).minus(incomeCentile).decimalPlaces(1).toNumber()
   const medianMultiple = getMedianMultiple(equivalizedIncome)

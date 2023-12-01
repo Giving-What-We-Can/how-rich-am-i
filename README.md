@@ -25,11 +25,6 @@ Please note that there are many problems with all underlying source data attempt
 
 [PPP data is from the World Bank](https://data.worldbank.org/indicator/PA.NUS.PPP?view=chart)
 
-To sanitize the data for use in this application
-- Convert CSV to JSON (e.g. using csv2json or https://www.csvjson.com/csv2json)
-- use [jq](https://stedolan.github.io/jq/) to turn JSON into a useable object, selecting the most recent year for which there is data:
-  `jq 'map( { (."Country Code"|tostring):  . | to_entries | map(select(.key | match("\\d{4}"))) | map(select(.value | length > 0)) | select(length > 0) | sort_by(.key) | reverse | map({factor: .value, year: .key}) | .[0] } ) | add'`
-- Save the result to `./data/ppp_conversion.json`
 
 ### Exchange rate data
 
