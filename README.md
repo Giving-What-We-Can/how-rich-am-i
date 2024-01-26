@@ -1,3 +1,5 @@
+#### Note: This repository is deprecated. The logic for the new How Rich Am I calculator can be found in the internal lyra repository.
+
 # How Rich Am I?
 
 A calculator to determine how rich you are compared to the rest of the world.
