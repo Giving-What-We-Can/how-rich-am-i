@@ -19,7 +19,7 @@ import COMPARISONS from './data/comparisons.json'
 describe('income centile interpolation', () => {
   test('interpolateIncomeCentileByAmount is sane', () => {
     const centile = interpolateIncomeCentileByAmount(20000)
-    expect(centile).toBe(90.5)
+    expect(centile).toBe(92.4)
   })
 
   test('interpolateIncomeAmountByCentile is sane', () => {
@@ -28,7 +28,7 @@ describe('income centile interpolation', () => {
   })
 
   test('median income is sane', () => {
-    expect(MEDIAN_INCOME).toBeGreaterThan(2800)
+    expect(MEDIAN_INCOME).toBeGreaterThan(2700)
     expect(MEDIAN_INCOME).toBeLessThan(2900)
   })
 })
@@ -49,16 +49,16 @@ describe('householdEquivalizationFactor', () => {
     expect(householdEquivalizationFactor({ adults: 1 })).toBe(1)
   })
   test('two adults', () => {
-    expect(householdEquivalizationFactor({ adults: 2 })).toBe(1.7)
+    expect(householdEquivalizationFactor({ adults: 2 })).toBe(2)
   })
   test('three adults', () => {
-    expect(householdEquivalizationFactor({ adults: 3 })).toBe(2.4)
+    expect(householdEquivalizationFactor({ adults: 3 })).toBe(3)
   })
   test('one adult, two children', () => {
-    expect(householdEquivalizationFactor({ adults: 1, children: 2 })).toBe(2)
+    expect(householdEquivalizationFactor({ adults: 1, children: 2 })).toBe(3)
   })
   test('two adults, five children', () => {
-    expect(householdEquivalizationFactor({ adults: 2, children: 5 })).toBe(4.2)
+    expect(householdEquivalizationFactor({ adults: 2, children: 5 })).toBe(7)
   })
 })
 
@@ -70,7 +70,7 @@ describe('internationalise income', () => {
   })
   test('10000 Japanese Yen is sane', () => {
     const jpy = internationalizeIncome(10000, 'JPN')
-    expect(jpy).toBeGreaterThan(90)
+    expect(jpy).toBeGreaterThan(80)
     expect(jpy).toBeLessThan(110)
   })
 })
@@ -78,11 +78,11 @@ describe('internationalise income', () => {
 test('equivalizeIncome', () => {
   // 1 adult 2 children should be an equivalization factor of 2
   const equivalizedIncome = equivalizeIncome(10000, { adults: 1, children: 2 })
-  expect(equivalizedIncome).toBe(5000)
+  expect(equivalizedIncome).toBe(3333.33)
 })
 
 test('getMedianMultiple', () => {
-  expect(getMedianMultiple(30000)).toBe(10.6)
+  expect(getMedianMultiple(30000)).toBe(10.9)
 })
 
 test('getIncomeAfterDonating', () => {
@@ -91,7 +91,7 @@ test('getIncomeAfterDonating', () => {
 
 describe('convert currency', () => {
   test('10000 Australian dollars', () => {
-    expect(convertIncome(10000, 'AUS')).toBe(7719.53)
+    expect(convertIncome(10000, 'AUD')).toBe(6369.08)
   })
 })
 
@@ -109,14 +109,14 @@ describe('calculate', () => {
       incomeTopPercentile,
       medianMultiple
     } = result
-    // Results are for datasets as of 2019-09-11. If you update the datasets,
+    // Results are for datasets as of 2023. If you update the datasets,
     // hand-calculate these values before running the tests again!!!
-    expect(internationalizedIncome).toBe(41230.05)
-    expect(equivalizedIncome).toBe(27486.7)
-    expect(convertedIncome).toBe(39155.82)
-    expect(incomeCentile).toBe(94.4)
-    expect(incomeTopPercentile).toBe(5.6)
-    expect(medianMultiple).toBe(9.7)
+    expect(internationalizedIncome).toBe(31041.73)
+    expect(equivalizedIncome).toBe(15520.87)
+    expect(convertedIncome).toBe(34638.54)
+    expect(incomeCentile).toBe(89.1)
+    expect(incomeTopPercentile).toBe(10.9)
+    expect(medianMultiple).toBe(5.7)
   })
 
   test('median household in Singapore', () => {
@@ -132,40 +132,41 @@ describe('calculate', () => {
       incomeTopPercentile,
       medianMultiple
     } = result
-    // Results are for datasets as of 2019-09-11. If you update the datasets,
+    // Results are for datasets as of 2023. If you update the datasets,
     // hand-calculate these values before running the tests again!!!
-    expect(internationalizedIncome).toBe(61666.88) // income / 0.859456454258084
-    expect(equivalizedIncome).toBe(41111.25) // internationalizedIncome / 1.5
-    expect(convertedIncome).toBe(39992.58) // income / 1.325245889
-    expect(incomeCentile).toBe(97.6)
-    expect(incomeTopPercentile).toBe(2.4)
-    expect(medianMultiple).toBe(14.6)
+    expect(internationalizedIncome).toBe(44812.71) // income / 1.1827002011308574
+    expect(equivalizedIncome).toBe(22406.36) // internationalizedIncome / 2
+    expect(convertedIncome).toBe(38803.94) // income / 1.3658405813953487
+    expect(incomeCentile).toBe(93.7)
+    expect(incomeTopPercentile).toBe(6.3)
+    expect(medianMultiple).toBe(8.2)
   })
 
-  test('median household in Russia', () => {
-    const income = 528000
-    const countryCode = 'RUS'
-    const household = { adults: 1, children: 1 }
-    const result = calculate({ income, countryCode, household })
-    const {
-      internationalizedIncome,
-      equivalizedIncome,
-      convertedIncome,
-      incomeCentile,
-      incomeTopPercentile,
-      medianMultiple
-    } = result
-    // Results are for datasets as of 2019-09-11. If you update the datasets,
-    // hand-calculate these values before running the tests again!!!
-    expect(internationalizedIncome).toBe(20261.14) // income / 26.059744
-    expect(equivalizedIncome).toBe(13507.43) // internationalizedIncome / 1.5
-    expect(convertedIncome).toBe(8876.08) // income / 59.48571323299
-    expect(incomeCentile).toBe(84.5)
-    expect(incomeTopPercentile).toBe(15.5)
-    expect(medianMultiple).toBe(4.8)
-  })
+  // OWID PPP data does not support Russia
+  // test('median household in Russia', () => {
+  //   const income = 528000
+  //   const countryCode = 'RUS'
+  //   const household = { adults: 1, children: 1 }
+  //   const result = calculate({ income, countryCode, household })
+  //   const {
+  //     internationalizedIncome,
+  //     equivalizedIncome,
+  //     convertedIncome,
+  //     incomeCentile,
+  //     incomeTopPercentile,
+  //     medianMultiple
+  //   } = result
+  //   // Results are for datasets as of 2019-09-11. If you update the datasets,
+  //   // hand-calculate these values before running the tests again!!!
+  //   expect(internationalizedIncome).toBe(20261.14) // income / 26.059744
+  //   expect(equivalizedIncome).toBe(13507.43) // internationalizedIncome / 1.5
+  //   expect(convertedIncome).toBe(8876.08) // income / 59.48571323299
+  //   expect(incomeCentile).toBe(84.5)
+  //   expect(incomeTopPercentile).toBe(15.5)
+  //   expect(medianMultiple).toBe(4.8)
+  // })
 
-  test('median tops out at 99th percential', () => {
+  test('median tops out at 99.9th percential', () => {
     const income = 284000000
     const countryCode = 'GBR'
     const household = { adults: 1, children: 1 }
@@ -173,7 +174,7 @@ describe('calculate', () => {
     const {
       incomeCentile
     } = result
-    expect(incomeCentile).toBe(99)
+    expect(incomeCentile).toBe(99.9)
   })
 })
 

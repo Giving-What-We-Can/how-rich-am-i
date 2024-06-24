@@ -20,10 +20,9 @@ import Slider from '@material-ui/core/Slider'
 import Hidden from '@material-ui/core/Hidden'
 
 import COUNTRIES from 'lib/calculate/data/countries.json'
-import { calculate, getCurrencyCode, getDonationComparisonAmount, convertIncome } from 'lib/calculate'
 import { FormattedNumber } from 'react-intl'
 import BigNumber from 'bignumber.js'
-import { COMPARISONS, MEDIAN_INCOME } from '../../lib/calculate'
+import { COMPARISONS, MEDIAN_INCOME, calculate, getCurrencyCode, getDonationComparisonAmount, convertIncome } from '../../lib/calculate'
 import ChartistGraph from 'react-chartist'
 import { withStyles } from '@material-ui/core/styles'
 
@@ -180,16 +179,24 @@ PieChart.propTypes = {
   data: PropTypes.object.isRequired
 }
 
-const getIncomeCentileData = ({ incomeCentile, incomeTopPercentile }) => ({
-  series: [
-    incomeTopPercentile,
-    incomeCentile
-  ],
-  labels: [
-    `People richer than you (${incomeTopPercentile}%)`,
-    `People you're richer than (${incomeCentile}%)`
-  ]
-})
+const getIncomeCentileData = ({ incomeCentile, incomeTopPercentile }) => {
+  if (incomeTopPercentile < 1) {
+    return {
+      series: [1, 99],
+      labels: [
+        `People richer than you (<1%)`,
+        `People you’re richer than (>99%)`,
+      ],
+    };
+  }
+  return {
+    series: [incomeTopPercentile, incomeCentile],
+    labels: [
+      `People richer than you (${incomeTopPercentile}%)`,
+      `People you’re richer than (${incomeCentile}%)`,
+    ],
+  };
+};
 
 const getMedianChartData = ({ equivalizedIncome }) => ({
   labels: ["Median person's income", 'Your income'],
@@ -284,7 +291,7 @@ const Calculation = withStyles(calculationStyles)(({ income, countryCode, househ
       </Grid>
       <Grid item sm={6}>
         <PieChart data={incomeCentileData} />
-        <Typography className={classes.chartText}>You are in the richest <em>{incomeTopPercentile}%</em> of the global population</Typography>
+        <Typography className={classes.chartText}>You are in the richest <em>{incomeTopPercentile < 1 ? 1 : incomeTopPercentile}%</em> of the global population</Typography>
       </Grid>
       <Grid item sm={6}>
         <BarChart data={getMedianChartData({ equivalizedIncome })} />
@@ -352,7 +359,7 @@ const DonationCalculation = withStyles(calculationStyles)(({ income, countryCode
       <Grid item sm={6}>
         <PieChart data={getIncomeCentileData({ incomeCentile, incomeTopPercentile })} />
         <Typography className={classes.chartText}>
-          You would still be in the richest <em>{incomeTopPercentile}%</em> of the global population
+          You would still be in the richest <em>{incomeTopPercentile < 1 ? 1 : incomeTopPercentile}%</em> of the global population
         </Typography>
       </Grid>
       <Grid item sm={6}>

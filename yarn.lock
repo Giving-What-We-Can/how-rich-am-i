@@ -3061,10 +3061,10 @@ country-data@^0.0.31:
     currency-symbol-map "~2"
     underscore ">1.4.4"
 
-countryinfo@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/countryinfo/-/countryinfo-1.0.3.tgz#fde529ba50d38495dcf20f36b556a3b95ccb3459"
-  integrity sha512-l2RQXtK8AlIbImwzMdpWLFJ0TLXRGZviuPP9uolpRTxlk9RwQaPu7Y1UGOUGvOuWJoFgCR2t8bIqUMTGuiF8BA==
+countryinfo@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/countryinfo/-/countryinfo-1.0.5.tgz#4032fa171e6cee744706ee752416110752a4e1a3"
+  integrity sha512-d9cR/KzTXA1rMFUhK8HBRTidAT+fGO/1qprx2amJkPW1bSXjhYFYFuxH2WdlvTpVHug7WtCC+e+66tBeySns2Q==
 
 create-ecdh@^4.0.0:
   version "4.0.3"
